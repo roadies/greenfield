@@ -1,4 +1,5 @@
 const express = require('express');
+const { Users, Trips, Journals, Images } = require('./database/db.js');
 
 const path = require('path');
 
