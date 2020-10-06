@@ -24,7 +24,7 @@ app.use(passport.session());
 
 
 const isLoggedIn = (req, res, next) => {
-  console.log(req.user,'<=== req.user');
+  console.log(req.user, '<=== req.user');
   if (req.user) {
     next();
   } else {
@@ -47,22 +47,22 @@ app.get('/', (req, res) => {
 app.get('/failed', (req, res) => res.send('You Failed to log in!'))
 
 // In this route you can see that if the user is logged in u can acess his info in: req.user
-app.get('/good', isLoggedIn, (req, res) => {
-  console.log(req.user);
-  res.send(`Welcome mr ${req.user.name}!`)})
+// app.get('/good', isLoggedIn, (req, res) => {
+//   console.log(req.user);
+//   res.send(`Welcome mr ${req.user.name}!`)})
 
 // Auth Routes
 app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
-  function(req, res) {
+  function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/good');
+    res.redirect('/#/profile');
   }
 );
 
 app.get('/logout', (req, res) => {
-    req.session = null;
-    req.logout();
-    res.redirect('/');
+  req.session = null;
+  req.logout();
+  res.redirect('/');
 });
