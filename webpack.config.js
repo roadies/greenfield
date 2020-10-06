@@ -7,26 +7,19 @@ module.exports = {
   mode: 'development',
   entry: join(__dirname, 'src/app.js'),
   output: {
-    path: join(__dirname, 'build'),
-    filename: 'app.min.js',
+    path: join(__dirname, 'dist'),
+    filename: 'bundle.js',
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env'],
-        },
-      },
-      {
         test: /\.vue$/,
-        use: 'vue-loader',
+        loader: 'vue-loader',
       },
       {
         test: /\.css$/,
         use: [
-          'vue-style-loader',
+          'style-loader',
           'css-loader',
         ],
       },
