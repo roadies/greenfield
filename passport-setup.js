@@ -1,9 +1,11 @@
 const passport = require('passport');
+const { Users } = require('./database/db');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
+require('./database/db');
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user);
 });
 
 passport.deserializeUser((user, done) => {
@@ -16,7 +18,9 @@ passport.use(new GoogleStrategy({
   callbackURL: 'http://localhost:8080/google/callback',
 },
   ((accessToken, refreshToken, profile, done) => {
-    // console.log(profile);
-    done(null, profile);
+    Users.findOrCreate({where: {googleId: profile.id, name: profile.displayName}})
+      .then(user => {
+        done(null, user[0]);
+      })
   }
   )));
