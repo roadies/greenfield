@@ -9,11 +9,12 @@
 </template>
 
 <script>
-import CampsiteLoader from '../components/CampsiteLoader.vue'
-import JournalForm from '../components/JournalForm.vue'
+import CampsiteLoader from "../components/CampsiteLoader.vue";
 export default {
   name: "Home",
-  components: { CampsiteLoader, JournalForm }
+  components: {
+    CampsiteLoader,
+  },
 };
 </script>
 
