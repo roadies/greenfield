@@ -4,6 +4,7 @@ const passport = require('passport');
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const {Journals} = require('./database/db');
 require('./passport-setup');
 
 const app = express();
@@ -63,3 +64,16 @@ app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
+
+app.get('/api/journals', (req, res) => {
+  Journals.findAll()
+    .then(result => res.status(200).send(result));
+});
+app.post('/api/journals', (req, res) => {
+  const journalObj = req.body;
+  Journals.create(journalObj)
+    .then(result => {
+      console.log(result)
+      res.status(200).send();
+    })
+})
