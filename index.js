@@ -4,9 +4,9 @@ const passport = require('passport');
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const {Journals} = require('./database/db');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
+const { Journals } = require('./database/db');
 require('./passport-setup');
 
 const app = express();
@@ -16,7 +16,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(fileUpload({
-  createParentPath: true
+  createParentPath: true,
 }));
 // app.use(express.json());
 app.use(cookieSession({
@@ -72,15 +72,15 @@ app.get('/logout', (req, res) => {
 
 app.get('/api/journals', (req, res) => {
   Journals.findAll()
-    .then(result => res.status(200).send(result));
+    .then((result) => res.status(200).send(result));
 });
 app.post('/api/journals', (req, res) => {
   const journalObj = req.body;
   Journals.create(journalObj)
-    .then(result => {
+    .then(() => {
       res.status(200).send();
-    })
-})
+    });
+});
 
 app.post('/api/fileUpload', (req, res) => {
   // const {user} = req;
@@ -90,32 +90,32 @@ app.post('/api/fileUpload', (req, res) => {
 
   const dir = path.join(__dirname, '/images/userImages');
 
-  if(!fs.existsSync(dir)) {
-    console.log('the path does not exist');
+  if (!fs.existsSync(dir)) {
+    // console.log('the path does not exist');
     fs.mkdirSync(dir, (err) => {
-      if(err){return console.error(err)}
-      console.log('Directory created successfully');
+      if (err) {
+        return console.error(err);
+      }
+      // console.log('Directory created successfully');
     });
   }
-  const userName = '1245674548756'
+  // to be updated with googleID / userID
+  const userName = '1245674548756';
 
-  // const imageFile = req.files.files;
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  let sampleFile = req.files.files;
+  const sampleFile = req.files.files;
   // imageFile.mv(`./images/userImages/${imageFile.name}`, (err) => {
   //   if(err) {res.sendStatus(500).send(err)}
   //   res.sendStatus(201).send('File Uploaded Successfully')
   // })
   // Use the mv() method to place the file somewhere on your server
-  let fileNameArray = sampleFile.name.split('.');
+  const fileNameArray = sampleFile.name.split('.');
   fileNameArray[0] = userName;
-  
-  
-  sampleFile.mv(`./images/userImages/${fileNameArray.join('.')}`, function(err) {
-    if (err)
-      return res.status(500).send(err);
 
-    res.send('File uploaded!');
+  sampleFile.mv(`./images/userImages/${fileNameArray.join('.')}`, (err) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
   });
-  // res.send(201);
-})
+  return res.send('File uploaded!');
+});
