@@ -2,8 +2,8 @@
 <div>
   <h1>New Trip</h1>
   <h1 style="text-align: center">USA Map</h1>
-  <GoogleMap :childData="childData" />
-  <CampsiteLoader v-on:query="updateOptions" />
+  <GoogleMap :origin="childData.origin" :final="childData.destination" />
+  <CampsiteLoader v-on:tripInput="tripLookup" v-on:/>
   <CampsiteOptions :option="childData" />
 </div>
 </template>
@@ -28,8 +28,13 @@ export default {
   },
   methods: {
     updateOptions(query) {
+      console.log('QUERY', query);
       this.childData = query;
     },
+    tripLookup(tripInput) {
+      console.log(tripInput);
+      this.childData = tripInput
+    }
   },
 };
 </script>

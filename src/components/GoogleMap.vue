@@ -69,7 +69,6 @@ export default {
       calculateAndDisplayRoute(directionsService, directionsDisplay, this.coords, this.destination);
     },
     convertToCoords: function() {
-        console.log('PROPS', this.props);
         const geocoder = new google.maps.Geocoder();
         geocoder.geocode( { 'address': this.origin }, (res, status) => {
           this.coords.lat = res[0].geometry.bounds.Ya.i;
