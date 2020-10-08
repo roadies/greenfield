@@ -76,12 +76,8 @@
         evt.preventDefault()
         this.form.date = new Date();
         this.form.image = this.file;
-        console.log(this.form);
-        // axios.post('/api/journals', this.form)
-        //   .then((res) => console.log(res))
-        //   .catch(err => console.error(err));
-        // axios.post('/api/fileUpload', this.form.file1)
-        // this.uploadFile();
+        axios.post('/api/journals', this.form)
+          .catch(err => console.error(err));
       },
       onReset(evt) {
         evt.preventDefault()

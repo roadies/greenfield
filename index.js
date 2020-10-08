@@ -78,18 +78,16 @@ app.post('/api/journals', (req, res) => {
   const journalObj = req.body;
   Journals.create(journalObj)
     .then(result => {
-      console.log(result)
       res.status(200).send();
     })
 })
 
 app.post('/api/fileUpload', (req, res) => {
   // const {user} = req;
-  console.log(req);
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
-  // console.log(req.files);
+
   const dir = path.join(__dirname, '/images/userImages');
 
   if(!fs.existsSync(dir)) {
@@ -101,7 +99,6 @@ app.post('/api/fileUpload', (req, res) => {
   }
   const userName = '1245674548756'
 
-  console.log();
   // const imageFile = req.files.files;
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   let sampleFile = req.files.files;
