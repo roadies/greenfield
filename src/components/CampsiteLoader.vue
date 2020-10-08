@@ -42,7 +42,8 @@ export default {
       axios.all([getFedCampsites]).then(
         axios.spread((...res) => {
           this.options = res[0].data.results;
-          this.$emit("query", this.options);
+          // this.$emit("query", this.options);
+          this.$emit("tripInput", this.currentTrip);
           // this.options = '',
         })
       );

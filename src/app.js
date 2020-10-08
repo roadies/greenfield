@@ -13,7 +13,8 @@ Vue.use(IconsPlugin);
 
 Vue.use(VueGoogleMaps, {
   load: {
-    // key: ,
+    // key: '',
+    libraries: 'directions',
   },
 
 });
