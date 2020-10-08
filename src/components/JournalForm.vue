@@ -1,6 +1,11 @@
 <template>
 <div>
-  <b-button align-v="left" variant="primary" v-b-modal.modal-1>New Journal</b-button>
+  <b-button
+   align="left"
+   variant="primary"
+   v-b-modal.modal-1
+   >New Journal
+   </b-button>
 
   <b-modal id="modal-1" title="New Journal Entry">
     <div>
@@ -29,6 +34,9 @@
         ></b-form-input>
       </b-form-group>
 
+
+      <fileUpload />
+
       <b-form-group id="input-group-3" label="Body:" label-for="input-3">
         <b-form-textarea
           id="input-3"
@@ -50,13 +58,15 @@
 
 <script>
   import axios from "axios";
+  import fileUpload from './fileUpload.vue';
   export default {
     data() {
       return {
         form: {
           title: '',
           location: '',
-          body: null,
+          body: '',
+          selectedFile: '',
         },
         show: true,
       }
@@ -64,11 +74,14 @@
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
-        console.log(JSON.stringify(this.form))
         this.form.date = new Date();
-        axios.post('/api/journals', this.form)
-          .then(console.log(res))
-          .catch(err => console.error(err));
+        this.form.image = this.file;
+        console.log(this.form);
+        // axios.post('/api/journals', this.form)
+        //   .then((res) => console.log(res))
+        //   .catch(err => console.error(err));
+        // axios.post('/api/fileUpload', this.form.file1)
+        // this.uploadFile();
       },
       onReset(evt) {
         evt.preventDefault()
@@ -81,8 +94,12 @@
         this.$nextTick(() => {
           this.show = true
         })
-      }
-    }
+      },
+
+    },
+    components: {
+      "fileUpload": fileUpload
+    },
   }
 </script>
 

@@ -5,6 +5,8 @@ const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const {Journals} = require('./database/db');
+const fileUpload = require('express-fileupload');
+const fs = require('fs');
 require('./passport-setup');
 
 const app = express();
@@ -13,6 +15,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(fileUpload({
+  createParentPath: true
+}));
 // app.use(express.json());
 app.use(cookieSession({
   name: 'ontheroadagain',
@@ -76,4 +81,44 @@ app.post('/api/journals', (req, res) => {
       console.log(result)
       res.status(200).send();
     })
+})
+
+app.post('/api/fileUpload', (req, res) => {
+  // const {user} = req;
+  console.log(req);
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+  // console.log(req.files);
+  const dir = path.join(__dirname, '/images/userImages');
+
+  if(!fs.existsSync(dir)) {
+    console.log('the path does not exist');
+    fs.mkdirSync(dir, (err) => {
+      if(err){return console.error(err)}
+      console.log('Directory created successfully');
+    });
+  }
+  const userName = '1245674548756'
+
+  console.log();
+  // const imageFile = req.files.files;
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  let sampleFile = req.files.files;
+  // imageFile.mv(`./images/userImages/${imageFile.name}`, (err) => {
+  //   if(err) {res.sendStatus(500).send(err)}
+  //   res.sendStatus(201).send('File Uploaded Successfully')
+  // })
+  // Use the mv() method to place the file somewhere on your server
+  let fileNameArray = sampleFile.name.split('.');
+  fileNameArray[0] = userName;
+  
+  
+  sampleFile.mv(`./images/userImages/${fileNameArray.join('.')}`, function(err) {
+    if (err)
+      return res.status(500).send(err);
+
+    res.send('File uploaded!');
+  });
+  // res.send(201);
 })
