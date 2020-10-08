@@ -2,9 +2,9 @@
 <div>
   <h1>New Trip</h1>
   <h1 style="text-align: center">USA Map</h1>
-  <GoogleMap :origin="childData.origin" :final="childData.destination" />
-  <CampsiteLoader v-on:tripInput="tripLookup" v-on:/>
-  <CampsiteOptions :option="childData" />
+  <GoogleMap :origin="formData.origin" :final="formData.destination" :dailyDriveTime="formData.dailyDriveTime" v-on:tripItinerary="setItinerary" />
+  <CampsiteLoader v-on:tripInput="tripLookup" :locationsToQuery="dailyDestinations" v-on:nightlyOptions="displayOptions" />
+  <CampsiteOptions :dailyOptionsList="campingOptions" />
 </div>
 </template>
 
@@ -23,17 +23,20 @@ export default {
   },
   data: function () {
     return {
-      childData: [],
+      formData: [],
+      dailyDestinations: {},
+      campingOptions: {},
     };
   },
   methods: {
-    updateOptions(query) {
-      console.log('QUERY', query);
-      this.childData = query;
-    },
     tripLookup(tripInput) {
-      console.log(tripInput);
-      this.childData = tripInput
+      this.formData = tripInput;
+    },
+    setItinerary(tripItinerary) {
+      this.dailyDestinations = tripItinerary;
+    },
+    displayOptions(nightlyOptions) {
+      this.campingOptions = nightlyOptions;
     }
   },
 };
