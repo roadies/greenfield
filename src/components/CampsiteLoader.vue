@@ -13,7 +13,6 @@
     <label for="tripStartDate">when are you setting out?</label>
     <input type="date" id="tripStartDate" class="form-control" v-model="currentTrip.tripStartDate" />
     <button>let's go!</button>
-    <!-- <router-link class="app-link" to="/newtrip"><button>let's go!</button></router-link> -->
   </form>
 </div>
 </template>
@@ -22,33 +21,61 @@
 import axios from "axios";
 export default {
   name: "CampsiteLoader",
+  props: [
+    'locationsToQuery'
+  ],
   data() {
     return {
       currentTrip: {
-        origin: "", // convert to latitude, longitude
-        destination: "", // convert to latitude, longitude
+        origin: "",
+        destination: "",
         dailyDriveTime: "",
         tripStartDate: "",
       },
+      legs: [],
       options: [],
     };
   },
   methods: {
     processForm: function () {
-      const getFedCampsites = axios.get(
-        `https://www.recreation.gov/api/search?q=${this.currentTrip.origin}&exact=false&fq=campsite_type_of_use%3AOvernight&fq=entity_type%3Acampground&start=0`
-      );
-      // const getStateCampesites = axios.get(`http://api.amp.active.com/camping/campgrounds/?pstate=${this.currentTrip.origin}&api_key=w937ncw96sqns8jbn6x2ckh2`);
-      axios.all([getFedCampsites]).then(
-        axios.spread((...res) => {
-          this.options = res[0].data.results;
-          // this.$emit("query", this.options);
-          this.$emit("tripInput", this.currentTrip);
-          // this.options = '',
+      this.$emit("tripInput", this.currentTrip)
+    },
+
+    reverseGeocode: function() {
+      const geocoder = new google.maps.Geocoder();
+      this.legs.map(eachNight => {
+        const latlng = {
+          lat: eachNight.end_lat,
+          lng: eachNight.end_lng
+        }
+        geocoder.geocode({ location: latlng }, (results, status) => {
+          if (status === 'OK') {
+            const zipCodePosition = results[0].address_components.length-1;
+            const eachNightZip = results[0].address_components[zipCodePosition].short_name;
+            const fedCampsitesUrl = `https://www.recreation.gov/api/search?q=${eachNightZip}&exact=false&fq=campsite_type_of_use%3AOvernight&fq=entity_type%3Acampground&start=0`
+            axios.get(fedCampsitesUrl)
+              .then((res) => {
+                this.options.push({
+                  night: eachNight.dayNumber,
+                  nearbyCamping: res.data.results
+                })
+              })
+          } else {
+            alert(status);
+          }
         })
-      );
+      })
+
+      this.$emit("nightlyOptions", this.options);
+
     },
   },
+  watch: {
+    locationsToQuery: function() {
+      this.legs = this.locationsToQuery;
+      this.reverseGeocode();
+    }
+  }
 };
 </script>
 
