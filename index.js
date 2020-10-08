@@ -96,6 +96,7 @@ app.post('/api/fileUpload', (req, res) => {
       if (err) {
         return console.error(err);
       }
+      return 'success';
       // console.log('Directory created successfully');
     });
   }
@@ -116,6 +117,7 @@ app.post('/api/fileUpload', (req, res) => {
     if (err) {
       return res.status(500).send(err);
     }
+    return 'success';
   });
   return res.send('File uploaded!');
 });
