@@ -4,10 +4,12 @@ import Home from './views/Home.vue';
 import Profile from './views/Profile.vue';
 import NewTrip from './views/NewTrip.vue';
 import Journal from './views/Journal.vue';
+import Login from './views/Login.vue';
+import store from './store/store';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -18,18 +20,12 @@ export default new Router({
       path: '/profile',
       name: 'Profile',
       component: Profile,
-      // beforeEnter: (to, from, next) => {
-      //   if (store.state.isUserLoggedIn === false) {
-      //     next({
-      //       path: '/',
-      // query: {
-      //   redirectFrom: to.Home,
-      // },
-      //   });
-      // } else {
-      //   next();
-      // }
-      // },
+      beforeEnter: (to, from, next) => {
+        if (to.name === 'Profile' && !router.app.$store.isUserLoggedIn) {
+          next({ name: 'Home' });
+        }
+        next();
+      },
     },
     {
       path: '/newtrip',
@@ -41,6 +37,21 @@ export default new Router({
       name: 'Journal',
       component: Journal,
     },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+    },
+    // {
+    //   path: '/',
+    //   redirect: (to) => {
+    //     const { hash, params, query } = to;
+    //     if (query.to === '/profile') {
+    //       return { path: '/profile', query: null };
+    //     }
+    //   },
+    // },
   ],
   // mode: 'history',
 });
+export default router;

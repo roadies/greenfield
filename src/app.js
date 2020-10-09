@@ -5,6 +5,7 @@ import * as VueGoogleMaps from 'vue2-google-maps';
 import Vuex from 'vuex';
 import App from './App.vue';
 import router from './router';
+import store from './store/store';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
@@ -26,28 +27,10 @@ Vue.use(VueGoogleMaps, {
   },
 });
 
-const store = new Vuex.Store({
-  state: {
-    token: null,
-    isUserLoggedIn: false,
-  },
-  getters: {
-    token: (state) => state.status,
-  },
-  mutations: {
-    updateStatus(state, token) {
-      Vue.set(state, 'token', token);
-    },
-  },
-  actions: {
-    setToken({ commit }, token) {
-      commit('setToken', token);
-    },
-  },
-});
-
 new Vue({
   store,
   router,
   render: (h) => h(App),
 }).$mount('#app');
+
+export default store;
