@@ -4,10 +4,12 @@ import Home from './views/Home.vue';
 import Profile from './views/Profile.vue';
 import NewTrip from './views/NewTrip.vue';
 import Journal from './views/Journal.vue';
+import Login from './views/Login.vue';
+import store from './store/store';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -18,16 +20,42 @@ export default new Router({
       path: '/profile',
       name: 'Profile',
       component: Profile,
+      beforeEnter: (to, from, next) => {
+        if (!router.app.$store.state.isUserLoggedIn) {
+          next({ name: 'Home' });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: '/newtrip',
       name: 'NewTrip',
       component: NewTrip,
+      beforeEnter: (to, from, next) => {
+        if (!router.app.$store.state.isUserLoggedIn) {
+          next({ name: 'Home' });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: '/journal',
       name: 'Journal',
       component: Journal,
+      beforeEnter: (to, from, next) => {
+        if (!router.app.$store.state.isUserLoggedIn) {
+          next({ name: 'Home' });
+        } else {
+          next();
+        }
+      },
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
     },
     // {
     //   path: '/',
@@ -41,3 +69,4 @@ export default new Router({
   ],
   // mode: 'history',
 });
+export default router;

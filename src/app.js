@@ -5,6 +5,7 @@ import * as VueGoogleMaps from 'vue2-google-maps';
 import Vuex from 'vuex';
 import App from './App.vue';
 import router from './router';
+import store from './store/store';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
@@ -26,19 +27,10 @@ Vue.use(VueGoogleMaps, {
   },
 });
 
-const store = new Vuex.Store({
-  state: {
-    authenticated: false,
-  },
-  mutations: {
-    setAuthentication(state, status) {
-      state.authenticated = status;
-    },
-  },
-});
-
 new Vue({
   store,
   router,
   render: (h) => h(App),
 }).$mount('#app');
+
+export default store;

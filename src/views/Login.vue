@@ -1,22 +1,8 @@
 <template>
-<div class="profile">
-  <h2>Hello {{ user.name }}!!</h2>
-
-  <h1>I'm the profile</h1>
-
-  <div class="profile_upcoming">
-    <h2>Upcomming</h2>
-    <div class="profile_details">
-      <h4>I'm an upcoming trip</h4>
-    </div>
-  </div>
-
-  <div class="profile_completed">
-    <h2>Completed</h2>
-    <div class="profile_details">
-      <h4>I'm a completed trip</h4>
-    </div>
-  </div>
+<div class="home">
+  <h1 class="home_title">I'm the home component</h1>
+  <a class="home_sign_in" href="/google">Sign in with Google</a>
+  <img class="home_image" src="https://www.collinsdictionary.com/images/full/road_124163875_1000.jpg" alt="" />
 </div>
 </template>
 
@@ -24,7 +10,7 @@
 import axios from "axios";
 
 export default {
-  name: "Profile",
+  name: "Login",
   data() {
     return {
       user: {},
@@ -32,7 +18,8 @@ export default {
   },
   mounted() {
     axios.get("/user/profile").then((response) => {
-      if (response.data) {
+      if (response.data.googleId) {
+        console.log(this.$store.state);
         this.$store.state.isUserLoggedIn = true;
         this.$store.state.token = response.data.googleId;
         console.log(this.$store.state);
