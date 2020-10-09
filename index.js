@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const fs = require('fs');
-const { Journals, Users, Trips } = require('./database/db');
+const { Journals } = require('./database/db');
 const { getUser } = require('./database/db');
 require('./passport-setup');
 
