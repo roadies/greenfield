@@ -58,6 +58,13 @@ sequelize.sync()
   .then(() => console.log('database & tables created'))
   .catch((err) => console.log('err in sync', err));
 
+// Associations
+Users.hasMany(Trips, { foreignKey: 'userId' });
+Trips.belongsTo(Users, { foreignKey: 'userId' });
+
+Trips.hasMany(Journals, { foreignKey: 'tripId' });
+Journals.belongsTo(Trips, { foreignKey: 'tripId' });
+
 // database functions
 const getUser = (id) => Users.findOne({ where: { googleId: id } });
 
