@@ -21,21 +21,36 @@ const router = new Router({
       name: 'Profile',
       component: Profile,
       beforeEnter: (to, from, next) => {
-        if (to.name === 'Profile' && !router.app.$store.isUserLoggedIn) {
+        if (!router.app.$store.state.isUserLoggedIn) {
           next({ name: 'Home' });
+        } else {
+          next();
         }
-        next();
       },
     },
     {
       path: '/newtrip',
       name: 'NewTrip',
       component: NewTrip,
+      beforeEnter: (to, from, next) => {
+        if (!router.app.$store.state.isUserLoggedIn) {
+          next({ name: 'Home' });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: '/journal',
       name: 'Journal',
       component: Journal,
+      beforeEnter: (to, from, next) => {
+        if (!router.app.$store.state.isUserLoggedIn) {
+          next({ name: 'Home' });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: '/login',
