@@ -16,9 +16,8 @@
       :draggable="false"
       v-on:click="openInfoWindow(camp)" />
   </gmap-map>
-  <button @click="getDirection">set route</button>
-  <button @click="convertToCoords">convert to coords</button>
-  <button @click="splitUpTrip">split up trip</button>
+  <button @click="splitUpTrip">find yr campsites</button>
+  <button>save to my trips</button>
 
 </div>
 </template>
@@ -26,10 +25,9 @@
 <script>
 export default {
   props: [
-    'origin',
-    'final',
     'dailyDriveTime',
-    'allCampsites'
+    'allCampsites',
+    'tripInfo'
   ],
   data() {
     return {
@@ -58,6 +56,8 @@ export default {
   },
   methods: {
     getDirection: function() {
+      this.coords = this.tripInfo.origin.location;
+      this.destination = this.tripInfo.destination.location;
       const directionsService = new google.maps.DirectionsService;
       const directionsDisplay = new google.maps.DirectionsRenderer;
       directionsDisplay.setMap(this.$refs.map.$mapObject);
@@ -70,18 +70,6 @@ export default {
           } else {
             window.alert('Directions request failed due to ' + status);
           }
-      })
-    },
-
-    convertToCoords: function() {
-      const geocoder = new google.maps.Geocoder();
-      geocoder.geocode( { 'address': this.origin }, (res, status) => {
-        this.coords.lat = res[0].geometry.bounds.Ya.i;
-        this.coords.lng = res[0].geometry.bounds.Sa.i;
-      })
-      geocoder.geocode( { 'address': this.final }, (res, status) => {
-        this.destination.lat = res[0].geometry.bounds.Ya.i;
-        this.destination.lng = res[0].geometry.bounds.Sa.i;
       })
     },
 
@@ -110,11 +98,8 @@ export default {
     },
 
   createCampCoordinates: function() {
-    console.log('THIS.ALLCAMPSITES', this.allCampsites);
     this.allCampsites.map(eachNight => {
-      console.log('EACH NIGHT', eachNight);
       eachNight.nearbyCamping.map(campsite => {
-        console.log('CAMPSITE INFO WINDOW INFO', campsite),
         this.campCoordinates.push({
           nightNumber: eachNight.night,
           location: {
@@ -131,14 +116,14 @@ export default {
   },
 
   openInfoWindow: function(selected) {
-    console.log('SELECTED', selected);
     this.coords = selected.location;
     this.zoom = 10;
     const contentString = `
-      name: ${selected.name}
-      parent: ${selected.facility}
-      organization: ${selected.organization}
-      description: ${selected.description}
+      <div class="infoWindow">
+        <h5>${selected.facility}</h5>
+        <h6>${selected.name}</h6>
+        <p>${selected.description}</p>
+      </div>
     `
     const infoWindow = new google.maps.InfoWindow({
       content: contentString,
@@ -146,14 +131,26 @@ export default {
     infoWindow.setPosition(this.coords);
     infoWindow.open(this.$refs.map.$mapObject);
   },
+
 },
-  watch: {
+watch: {
     allCampsites: function() {
       if (this.allCampsites.length === this.daysOfDriving - 1) {
         this.createCampCoordinates();
       }
     },
-    deep: true,
+   tripInfo: function() {
+     if (typeof this.tripInfo.origin.location.lat === 'number') {
+       this.getDirection();
+     }
+   }
   },
 };
 </script>
+
+<style>
+  .infoWindow {
+    width: 400px;
+    height: 200px;
+  }
+</style>
