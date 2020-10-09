@@ -123,5 +123,5 @@ app.post('/api/fileUpload', (req, res) => {
 });
 
 app.get('/user/profile', (req, res) => {
-  getUser(req.user.googleId).then((data) => res.send(data)).catch((err) => console.info(err));
-})
+  getUser(req.user.googleId).then((data) => res.send(data)).catch((err) => console.error(err));
+});
