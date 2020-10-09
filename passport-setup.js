@@ -14,12 +14,12 @@ passport.deserializeUser((user, done) => {
 passport.use(new GoogleStrategy({
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: 'http://142.93.14.19:8080/google/callback',
+  callbackURL: 'http://localhost:8080/google/callback',
 },
-((accessToken, refreshToken, profile, done) => {
-  Users.findOrCreate({ where: { googleId: profile.id, name: profile.displayName } })
-    .then((user) => {
-      done(null, user[0]);
-    });
-}
-)));
+  ((accessToken, refreshToken, profile, done) => {
+    Users.findOrCreate({ where: { googleId: profile.id, name: profile.displayName } })
+      .then((user) => {
+        done(null, user[0]);
+      });
+  }
+  )));

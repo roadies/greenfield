@@ -28,7 +28,16 @@ export default new Router({
       path: '/journal',
       name: 'Journal',
       component: Journal,
-    }
+    },
+    // {
+    //   path: '/',
+    //   redirect: (to) => {
+    //     const { hash, params, query } = to;
+    //     if (query.to === '/profile') {
+    //       return { path: '/profile', query: null };
+    //     }
+    //   },
+    // },
   ],
   // mode: 'history',
 });

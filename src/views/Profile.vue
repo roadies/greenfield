@@ -1,5 +1,7 @@
 <template>
 <div class="profile">
+  <h2>Hello {{ user.name }}!!</h2>
+
   <h1>I'm the profile</h1>
 
   <div class="profile_upcoming">
@@ -19,8 +21,20 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Profile",
+  data() {
+    return {
+      user: {},
+    };
+  },
+  mounted() {
+    axios.get("/user/profile").then((response) => {
+      this.user = response.data;
+    });
+  },
 };
 </script>
 

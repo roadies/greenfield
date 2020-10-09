@@ -3,10 +3,11 @@ const path = require('path');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const fileUpload = require('express-fileupload');
+const cors = require('cors');
 const fs = require('fs');
 const { Journals } = require('./database/db');
+const { getUser } = require('./database/db');
 require('./passport-setup');
 
 const app = express();
@@ -27,14 +28,13 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// const isLoggedIn = (req, res, next) => {
-//   console.log(req.user, '<=== req.user');
-//   if (req.user) {
-//     next();
-//   } else {
-//     res.sendStatus(401);
-//   }
-// };
+const isLoggedIn = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+};
 
 app.use('/dist', express.static(path.join(__dirname, '/dist')));
 
@@ -51,9 +51,9 @@ app.get('/', (req, res) => {
 app.get('/failed', (req, res) => res.send('You Failed to log in!'));
 
 // In this route you can see that if the user is logged in u can acess his info in: req.user
-// app.get('/good', isLoggedIn, (req, res) => {
-//   console.log(req.user);
-//   res.send(`Welcome mr ${req.user.name}!`)})
+app.get('/good', isLoggedIn, (req, res) => {
+  res.redirect('/#/profile');
+});
 
 // Auth Routes
 app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
@@ -61,7 +61,7 @@ app.get('/google', passport.authenticate('google', { scope: ['profile', 'email']
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
   (req, res) => {
     // Successful authentication, redirect home.
-    res.redirect('/#/profile');
+    res.redirect('/good');
   });
 
 app.get('/logout', (req, res) => {
@@ -120,4 +120,8 @@ app.post('/api/fileUpload', (req, res) => {
     return 'success';
   });
   return res.send('File uploaded!');
+});
+
+app.get('/user/profile', (req, res) => {
+  getUser(req.user.googleId).then((data) => res.send(data)).catch((err) => console.error(err));
 });
