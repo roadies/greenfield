@@ -14,7 +14,10 @@ Vue.use(IconsPlugin);
 Vue.use(VueGoogleMaps, {
   load: {
     // key: '',
-    libraries: 'directions',
+    libraries: [
+      'directions',
+      'places',
+    ],
   },
 
 });
