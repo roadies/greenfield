@@ -16,13 +16,6 @@
       :draggable="false"
       v-on:click="openInfoWindow(camp)" />
   </gmap-map>
-  <gmap-info-window
-    :options="{maxWidth: 300}"
-    :position="infoWindow.position"
-    :opened="infoWindow.open"
-    @closeclick="infoWindow.open=false">
-    <div v-html="infoWindow.template"></div>
-</gmap-info-window>
   <button @click="getDirection">set route</button>
   <button @click="convertToCoords">convert to coords</button>
   <button @click="splitUpTrip">split up trip</button>
