@@ -58,9 +58,13 @@ sequelize.sync()
   .then(() => console.log('database & tables created'))
   .catch((err) => console.log('err in sync', err));
 
+// database functions
+const getUser = (id) => Users.findOne({ where: { googleId: id } });
+
 module.exports = {
   Users,
   Trips,
   Journals,
   Images,
+  getUser,
 };
