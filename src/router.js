@@ -18,6 +18,18 @@ export default new Router({
       path: '/profile',
       name: 'Profile',
       component: Profile,
+      // beforeEnter: (to, from, next) => {
+      //   if (store.state.isUserLoggedIn === false) {
+      //     next({
+      //       path: '/',
+      // query: {
+      //   redirectFrom: to.Home,
+      // },
+      //   });
+      // } else {
+      //   next();
+      // }
+      // },
     },
     {
       path: '/newtrip',
@@ -29,15 +41,6 @@ export default new Router({
       name: 'Journal',
       component: Journal,
     },
-    // {
-    //   path: '/',
-    //   redirect: (to) => {
-    //     const { hash, params, query } = to;
-    //     if (query.to === '/profile') {
-    //       return { path: '/profile', query: null };
-    //     }
-    //   },
-    // },
   ],
   // mode: 'history',
 });

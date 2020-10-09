@@ -32,7 +32,12 @@ export default {
   },
   mounted() {
     axios.get("/user/profile").then((response) => {
-      this.user = response.data;
+      if (response.data) {
+        this.$store.state.isUserLoggedIn = true;
+        this.$store.state.token = response.data.googleId;
+        console.log(this.$store.state);
+        this.user = response.data;
+      }
     });
   },
 };

@@ -28,11 +28,20 @@ Vue.use(VueGoogleMaps, {
 
 const store = new Vuex.Store({
   state: {
-    authenticated: false,
+    token: null,
+    isUserLoggedIn: false,
+  },
+  getters: {
+    token: (state) => state.status,
   },
   mutations: {
-    setAuthentication(state, status) {
-      state.authenticated = status;
+    updateStatus(state, token) {
+      Vue.set(state, 'token', token);
+    },
+  },
+  actions: {
+    setToken({ commit }, token) {
+      commit('setToken', token);
     },
   },
 });
