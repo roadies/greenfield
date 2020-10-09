@@ -3,14 +3,11 @@ const path = require('path');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
-const cors = require('cors');
-<<<<<<< HEAD
 const fileUpload = require('express-fileupload');
+const cors = require('cors');
 const fs = require('fs');
 const { Journals } = require('./database/db');
-=======
 const { getUser } = require('./database/db');
->>>>>>> 0c04faa... (add) Vuex to work with vuew-router
 require('./passport-setup');
 
 const app = express();
@@ -73,7 +70,6 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-<<<<<<< HEAD
 app.get('/api/journals', (req, res) => {
   Journals.findAll()
     .then((result) => res.status(200).send(result));
@@ -125,9 +121,7 @@ app.post('/api/fileUpload', (req, res) => {
   });
   return res.send('File uploaded!');
 });
-=======
 
 app.get('/user/profile', (req, res) => {
   getUser(req.user.googleId).then((data) => res.send(data)).catch((err) => console.info(err));
 })
->>>>>>> 0c04faa... (add) Vuex to work with vuew-router
