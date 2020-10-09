@@ -2,9 +2,18 @@
 <div>
   <h1>New Trip</h1>
   <h1 style="text-align: center">USA Map</h1>
-  <GoogleMap :origin="formData.origin" :final="formData.destination" :dailyDriveTime="formData.dailyDriveTime" v-on:tripItinerary="setItinerary" />
-  <CampsiteLoader v-on:tripInput="tripLookup" :locationsToQuery="dailyDestinations" v-on:nightlyOptions="displayOptions" />
-  <CampsiteOptions :dailyOptionsList="campingOptions" />
+  <GoogleMap
+    :origin="formData.origin"
+    :final="formData.destination"
+    :dailyDriveTime="formData.dailyDriveTime"
+    :allCampsites="campingOptions"
+    v-on:tripItinerary="setItinerary" />
+  <CampsiteLoader
+    :locationsToQuery="dailyDestinations"
+    v-on:tripInput="tripLookup"
+    v-on:nightlyOptions="displayOptions" />
+  <CampsiteOptions
+    :dailyOptionsList="campingOptions" />
 </div>
 </template>
 
