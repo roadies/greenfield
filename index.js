@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const fs = require('fs');
-const { Journals } = require('./database/db');
+const { Journals, Users, Trips } = require('./database/db');
 const { getUser } = require('./database/db');
 require('./passport-setup');
 
@@ -124,4 +124,16 @@ app.post('/api/fileUpload', (req, res) => {
 
 app.get('/user/profile', (req, res) => {
   getUser(req.user.googleId).then((data) => res.send(data)).catch((err) => console.error(err));
+});
+
+app.get('/api/trip/:id', (req, res) => {
+  const { id } = req.params;
+
+  Users.findOne({ where: { id }, include: [Trips] }).then((data) => res.send(data));
+});
+
+app.get('/api/journal/:id', (req, res) => {
+  const { id } = req.params;
+
+  Trips.findOne({ where: { id }, include: [Journals] }).then((data) => res.send(data));
 });
