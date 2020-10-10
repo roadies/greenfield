@@ -6,7 +6,12 @@
     :tripInfo="formData"
     :allCampsites="campingOptions"
     v-on:tripItinerary="setItinerary"
-    v-on:tripDuration="setDuration" /></center>
+    v-on:tripLength="setLength" /></center>
+  <SaveTrip
+    :tripInfo="formData"
+    :tripLength="tripLength"
+    :campingOptions="campingOptions"
+  />
   <CampsiteLoader
     :locationsToQuery="dailyDestinations"
     v-on:tripInput="tripLookup"
@@ -20,6 +25,7 @@
 import axios from "axios";
 import GoogleMap from "../components/GoogleMap.vue";
 import CampsiteLoader from "../components/CampsiteLoader.vue";
+import SaveTrip from "../components/SaveTrip.vue";
 import CampsiteOptions from "../components/CampsiteOptions.vue";
 
 export default {
@@ -27,12 +33,13 @@ export default {
   components: {
     GoogleMap,
     CampsiteLoader,
+    SaveTrip,
     CampsiteOptions,
   },
   data: function () {
     return {
       formData: [],
-      tripDuration: '',
+      tripLength: {},
       dailyDestinations: {},
       campingOptions: {},
     };
@@ -40,6 +47,9 @@ export default {
   methods: {
     tripLookup(tripInput) {
       this.formData = tripInput;
+    },
+    setLength(tripLength) {
+      this.tripLength = tripLength;
     },
     setItinerary(tripItinerary) {
       this.dailyDestinations = tripItinerary;
