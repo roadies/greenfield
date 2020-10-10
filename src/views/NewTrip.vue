@@ -1,13 +1,12 @@
 <template>
 <div>
-  <h1>New Trip</h1>
-  <h1 style="text-align: center">USA Map</h1>
-  <GoogleMap
-    :origin="formData.origin"
-    :final="formData.destination"
+  <h1 style="text-align: center">where are u going where have u been</h1>
+  <center><GoogleMap
     :dailyDriveTime="formData.dailyDriveTime"
+    :tripInfo="formData"
     :allCampsites="campingOptions"
-    v-on:tripItinerary="setItinerary" />
+    v-on:tripItinerary="setItinerary"
+    v-on:tripDuration="setDuration" /></center>
   <CampsiteLoader
     :locationsToQuery="dailyDestinations"
     v-on:tripInput="tripLookup"
@@ -33,6 +32,7 @@ export default {
   data: function () {
     return {
       formData: [],
+      tripDuration: '',
       dailyDestinations: {},
       campingOptions: {},
     };

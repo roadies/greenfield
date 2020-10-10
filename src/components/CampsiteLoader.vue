@@ -2,17 +2,17 @@
 <div class="trip-planner">
   <form id="campsite-loader" v-on:submit.prevent="processForm" v-on:keyup.enter="processForm">
     <label for="origin">where are you coming from?</label>
-    <input type="text" id="origin" class="form-control" v-model="currentTrip.origin" />
+    <input type="text" id="origin" class="form-control" v-model="currentTrip.origin.address" />
 
     <label for="destination">where are you going?</label>
-    <input type="text" id="destination" class="form-control" v-model="currentTrip.destination" />
+    <input type="text" id="destination" class="form-control" v-model="currentTrip.destination.address" />
 
     <label for="dailyDriveTime">how long do you want to drive each day?</label>
     <input min="1" max="23" type="number" id="dailyDriveTime" class="form-control" v-model.number="currentTrip.dailyDriveTime" />
 
     <label for="tripStartDate">when are you setting out?</label>
     <input type="date" id="tripStartDate" class="form-control" v-model="currentTrip.tripStartDate" />
-    <button>let's go!</button>
+    <button>map out route</button>
   </form>
 </div>
 </template>
@@ -22,13 +22,25 @@ import axios from "axios";
 export default {
   name: "CampsiteLoader",
   props: [
-    'locationsToQuery'
+    'locationsToQuery',
   ],
   data() {
     return {
       currentTrip: {
-        origin: "",
-        destination: "",
+        origin: {
+          address: '',
+          location: {
+            lat: '',
+            lng: '',
+          }
+        },
+        destination: {
+          address: '',
+          location: {
+            lat: '',
+            lng: '',
+          }
+        },
         dailyDriveTime: "",
         tripStartDate: "",
       },
@@ -36,9 +48,25 @@ export default {
       options: [],
     };
   },
+
   methods: {
     processForm: function () {
-      this.$emit("tripInput", this.currentTrip)
+      const geocoder = new google.maps.Geocoder();
+        geocoder.geocode( { 'address': this.currentTrip.origin.address }, (res, status) => {
+        if (status === 'OK') {
+          this.currentTrip.origin.location.lat = res[0].geometry.bounds.Ya.i;
+          this.currentTrip.origin.location.lng = res[0].geometry.bounds.Sa.i;
+          };
+        })
+        geocoder.geocode( { 'address': this.currentTrip.destination.address }, (res, status) => {
+        if (status === 'OK') {
+          this.currentTrip.destination.location.lat = res[0].geometry.bounds.Ya.i;
+          this.currentTrip.destination.location.lng = res[0].geometry.bounds.Sa.i;
+        }
+      })
+      setTimeout(() => {
+        this.$emit("tripInput", this.currentTrip)
+      }, 250);
     },
 
     reverseGeocode: function() {
@@ -64,11 +92,11 @@ export default {
             alert(status);
           }
         })
+
       })
-
       this.$emit("nightlyOptions", this.options);
-
     },
+
   },
   watch: {
     locationsToQuery: function() {
@@ -76,8 +104,13 @@ export default {
       this.reverseGeocode();
     }
   }
-};
+}
 </script>
 
 <style>
+  .trip-planner {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+  }
 </style>
