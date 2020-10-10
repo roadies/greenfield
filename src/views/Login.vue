@@ -1,7 +1,7 @@
 <template>
-<div class="home">
-  <h1 class="home_title">Welcome {{ this.$store.state.userName }}</h1>
-  <img class="home_image" src="https://www.collinsdictionary.com/images/full/road_124163875_1000.jpg" alt="" />
+<div class="login">
+  <h4 class="login_welcome">Welcome {{ this.$store.state.userName }}</h4>
+  <img class="login_image" src="https://media.cntraveler.com/photos/5edfc029b16364ea435ca862/3:1/w_3000,h_1000,c_limit/Roadtrip-2020-GettyImages-1151192650.jpg" alt="" />
 </div>
 </template>
 
@@ -30,5 +30,23 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.login {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 600px;
+}
+
+.login_welcome {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.login_image {
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 25px;
+  width: 80%;
+  height: 10%;
+}
 </style>

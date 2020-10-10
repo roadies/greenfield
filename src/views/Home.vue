@@ -1,8 +1,11 @@
 <template>
 <div class="home">
-  <h1 class="home_title">I'm the home component</h1>
-  <a class="home_sign_in" href="/google">Sign in with Google</a>
-  <img class="home_image" src="https://www.collinsdictionary.com/images/full/road_124163875_1000.jpg" alt="" />
+  <a type="button" class="btn btn-warning" href="/google">Sign in with Google</a>
+  <img class="home_image" src="https://www.smartertravel.com/uploads/2017/06/road_trip_tips_hero-1400x500.jpg" alt="" />
+  <div class="home_intro">
+    <h3>Page Description</h3>
+    <p>Introduction to the website</p>
+  </div>
 </div>
 </template>
 
@@ -18,4 +21,35 @@ export default {
 </script>
 
 <style scoped>
+.home {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 600px;
+}
+
+.btn btn-warning {
+  padding-left: 100px;
+}
+
+.home_sign-in {
+  object-position: relative;
+  text-align: right;
+  padding-top: 20px;
+  padding-right: 250px;
+  padding-bottom: 20px;
+}
+
+.home_image {
+  object-fit: contain;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 25px;
+  width: 80%;
+  height: 10%;
+}
+
+.home_intro {
+  text-align: center;
+  padding-top: 30px;
+}
 </style>
