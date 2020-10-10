@@ -68,6 +68,9 @@ Trips.belongsTo(Users, { foreignKey: 'userId' });
 Trips.hasMany(Journals, { foreignKey: 'tripId' });
 Journals.belongsTo(Trips, { foreignKey: 'tripId' });
 
+Journals.hasMany(Images, { foreignKey: 'journalId' });
+Images.belongsTo(Journals, { foreignKey: 'journalId' });
+
 // database functions
 const getUser = (id) => Users.findOne({ where: { googleId: id } });
 
