@@ -1,7 +1,9 @@
 <template>
 <div id="app">
-  <h1 class="app_title">On The Road Again</h1>
-  <Nav v-if="this.$route.path !== '/'" />
+  <div class="app_container">
+    <h1 class="app_title">On the Road</h1>
+    <Nav v-if="this.$route.path !== '/'" />
+  </div>
   <router-view></router-view>
 </div>
 </template>
@@ -19,4 +21,13 @@ export default {
 </script>
 
 <style>
+#app {
+  background-color: #fffaf0;
+}
+
+.app_title {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 </style>
