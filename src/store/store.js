@@ -8,6 +8,7 @@ const store = new Vuex.Store({
     token: null,
     isUserLoggedIn: false,
     userName: '',
+    userId: '',
   },
   getters: {
     token: (state) => state.status,
