@@ -51,6 +51,7 @@ export default {
 
   methods: {
     processForm: function () {
+      this.$store.state.tripCalculated = true;
       const geocoder = new google.maps.Geocoder();
         geocoder.geocode( { 'address': this.currentTrip.origin.address }, (res, status) => {
         if (status === 'OK') {
