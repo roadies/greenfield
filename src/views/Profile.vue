@@ -1,7 +1,5 @@
 <template>
 <div class="profile">
-  <h2>Hello {{ user.name }}!!</h2>
-
   <h1>I'm the profile</h1>
 
   <div class="profile_upcoming">
@@ -28,17 +26,13 @@ export default {
   data() {
     return {
       user: {},
+      trips: [],
     };
   },
   mounted() {
-    // axios.get("/user/profile").then((response) => {
-    //   if (response.data) {
-    //     this.$store.state.isUserLoggedIn = true;
-    //     this.$store.state.token = response.data.googleId;
-    //     console.log(this.$store.state);
-    //     this.user = response.data;
-    //   }
-    // });
+    axios.get(`/api/trip/${this.$store.state.token}`).then((response) => {
+      this.trips = response.data.Trips;
+    });
   },
 };
 </script>
