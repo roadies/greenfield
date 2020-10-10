@@ -20,18 +20,16 @@ export default {
   methods: {
     onSave() {
       this.trip = {
-        origin: this.tripInfo.origin.address,
-        destination: this.tripInfo.destination.address,
-        originCoords: {
-          lat: this.tripInfo.origin.location.lat,
-          lng: this.tripInfo.origin.location.lng,
-        },
-        destinationCoords: {
-          lat: this.tripInfo.destination.location.lat,
-          lng: this.tripInfo.destination.location.lng,
-        },
-        tripDuration: this.tripDuration,
-        campingOptions: this.campingOptions
+        userId: this.$store.state.userId,
+        location_start: this.tripInfo.origin.address,
+        location_end: this.tripInfo.destination.address,
+        latitude_start: this.tripInfo.origin.location.lat,
+        longitude_start: this.tripInfo.origin.location.lng,
+        latitude_end: this.tripInfo.destination.location.lat,
+        longitude_end: this.tripInfo.destination.location.lng,
+        trip_duration: this.tripLength.tripDuration,
+        trip_distance: this.tripLength.tripDistance,
+        // campingOptions: this.campingOptions
       }
       console.log('hey!', this.trip);
       axios.post('/api/trips', this.trip)
