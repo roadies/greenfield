@@ -94,17 +94,30 @@ app.post('/api/journals', (req, res) => {
     });
 });
 
-app.post('/api/fileUpload', (req, res) => {
+app.post('/api/fileUpload', async (req, res) => {
+  // console.log(req);
+  const { trip, user } = req.body;
   // const {user} = req;
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
 
-  const dir = path.join(__dirname, '/images/userImages');
+  const userDir = path.join(__dirname, `/images/userImages/${user}`);
+  const tripDir = path.join(__dirname, `${userDir}/${trip}`);
 
-  if (!fs.existsSync(dir)) {
+  if (!fs.existsSync(userDir)) {
     // console.log('the path does not exist');
-    fs.mkdirSync(dir, (err) => {
+    await fs.mkdirSync(userDir, (err) => {
+      if (err) {
+        return console.error(err);
+      }
+      return 'success';
+      // console.log('Directory created successfully');
+    });
+  }
+  if (!fs.existsSync(tripDir)) {
+    // console.log('the path does not exist');
+    await fs.mkdirSync(tripDir, (err) => {
       if (err) {
         return console.error(err);
       }
@@ -113,25 +126,24 @@ app.post('/api/fileUpload', (req, res) => {
     });
   }
   // to be updated with googleID / userID
-  const userName = '1245674548756';
 
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  const sampleFile = req.files.files;
+  const file = req.files.files;
   // imageFile.mv(`./images/userImages/${imageFile.name}`, (err) => {
   //   if(err) {res.sendStatus(500).send(err)}
   //   res.sendStatus(201).send('File Uploaded Successfully')
   // })
   // Use the mv() method to place the file somewhere on your server
-  const fileNameArray = sampleFile.name.split('.');
-  fileNameArray[0] = userName;
+  const fileNameArray = file.name.split('.');
+  fileNameArray[0] = `${trip}${user}`;
 
-  sampleFile.mv(`./images/userImages/${fileNameArray.join('.')}`, (err) => {
+  file.mv(`./images/userImages/${fileNameArray.join('.')}`, (err) => {
     if (err) {
       return res.status(500).send(err);
     }
     return 'success';
   });
-  return res.send('File uploaded!');
+  return res.send(`./images/userImages/${fileNameArray.join('.')}`);
 });
 
 app.get('/user/profile', (req, res) => {

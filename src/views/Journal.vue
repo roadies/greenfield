@@ -2,8 +2,7 @@
 <div>
   <h1>Journals</h1>
   <b-container align-v="center">
-    <JournalForm />
-    <JournalList v-for="journal in journals" :key="journal.date" :title="journal.title" :date="journal.date" :body="journal.body" />
+    <JournalList v-for="journal in journals" :key="journal.date" :title="journal.title" :date="journal.date" :body="journal.body" :id="journal.id" :tripId="journal.tripId" />
   </b-container>
 </div>
 </template>

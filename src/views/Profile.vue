@@ -24,7 +24,7 @@ export default {
     };
   },
   mounted() {
-    axios.get(`/api/trip/${this.$store.state.token}`).then((response) => {
+    axios.get(`/api/trip/${this.$store.state.userId}`).then((response) => {
       this.trips = response.data.Trips;
     });
   },
