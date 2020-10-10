@@ -5,6 +5,7 @@ import Profile from './views/Profile.vue';
 import NewTrip from './views/NewTrip.vue';
 import Journal from './views/Journal.vue';
 import Login from './views/Login.vue';
+import SavedTrip from './views/SavedTrip.vue';
 import store from './store/store';
 
 Vue.use(Router);
@@ -44,6 +45,19 @@ const router = new Router({
       path: '/journal',
       name: 'Journal',
       component: Journal,
+      beforeEnter: (to, from, next) => {
+        if (!router.app.$store.state.isUserLoggedIn) {
+          next({ name: 'Home' });
+        } else {
+          next();
+        }
+      },
+    },
+    {
+      path: '/trip',
+      name: 'SavedTrip',
+      component: SavedTrip,
+      props: true,
       beforeEnter: (to, from, next) => {
         if (!router.app.$store.state.isUserLoggedIn) {
           next({ name: 'Home' });

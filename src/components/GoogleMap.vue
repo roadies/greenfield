@@ -60,9 +60,9 @@ export default {
       this.destination = this.tripInfo.destination.location;
       const directionsService = new google.maps.DirectionsService;
       const directionsDisplay = new google.maps.DirectionsRenderer;
-      directionsDisplay.setMap(this.$refs.map.$mapObject);
       directionsService.route( { 'origin': this.coords, 'destination': this.destination, 'travelMode': 'DRIVING'}, (res, status) => {
         if (status === 'OK') {
+          directionsDisplay.setMap(this.$refs.map.$mapObject);
           this.tripLength.tripDistance = res.routes[0].legs[0].distance.text;
           this.tripLength.tripDuration = res.routes[0].legs[0].duration.value;
           this.tripRoute = res.routes[0].legs[0];
