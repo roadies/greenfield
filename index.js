@@ -126,14 +126,20 @@ app.get('/user/profile', (req, res) => {
   getUser(req.user.googleId).then((data) => res.send(data)).catch((err) => console.error(err));
 });
 
-app.get('/api/trip/:id', (req, res) => {
-  const { id } = req.params;
+app.get('/api/trip/:googleId', (req, res) => {
+  const { googleId } = req.params;
 
-  Users.findOne({ where: { id }, include: [Trips] }).then((data) => res.send(data));
+  Users.findOne({ where: { googleId }, include: [Trips] }).then((data) => res.send(data));
 });
 
-app.get('/api/journal/:id', (req, res) => {
-  const { id } = req.params;
+app.get('/api/journal/:googleId', (req, res) => {
+  const { googleId } = req.params;
 
-  Trips.findOne({ where: { id }, include: [Journals] }).then((data) => res.send(data));
+  Trips.findOne({ where: { googleId }, include: [Journals] }).then((data) => res.send(data));
+});
+
+app.get('/api/journal/:googleId', (req, res) => {
+  const { googleId } = req.params;
+
+  Trips.findOne({ where: { googleId }, include: [Journals] }).then((data) => res.send(data));
 });
