@@ -70,10 +70,22 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
+app.get('/api/trips', (req, res) => {
+  Trips.findAll()
+    .then((trips) => res.send(trips));
+});
+
+app.post('/api/trips/', (req, res) => {
+  const newTrip = req.body;
+  Trips.create(newTrip)
+    .then(() => res.status(201).send());
+});
+
 app.get('/api/journals', (req, res) => {
   Journals.findAll()
     .then((result) => res.status(200).send(result));
 });
+
 app.post('/api/journals', (req, res) => {
   const journalObj = req.body;
   Journals.create(journalObj)
