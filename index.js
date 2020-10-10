@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const fs = require('fs');
-const { Journals, Users, Trips, Images } = require('./database/db');
+const { Journals, Users, Trips } = require('./database/db');
 const { getUser } = require('./database/db');
 require('./passport-setup');
 
@@ -81,6 +81,12 @@ app.post('/api/trips/', (req, res) => {
     .then(() => res.status(201).send());
 });
 
+app.get('/api/savedTrip/:id', (req, res) => {
+  const { id } = req.params;
+  Trips.findOne({ where: { id } })
+    .then((tripData) => res.send(tripData));
+});
+
 app.get('/api/journals', (req, res) => {
   Journals.findAll()
     .then((result) => res.status(200).send(result));
@@ -94,30 +100,17 @@ app.post('/api/journals', (req, res) => {
     });
 });
 
-app.post('/api/fileUpload', async (req, res) => {
-  // console.log(req);
-  const { trip, user } = req.body;
+app.post('/api/fileUpload', (req, res) => {
   // const {user} = req;
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
 
-  const userDir = path.join(__dirname, `/images/userImages/${user}`);
-  const tripDir = path.join(__dirname, `${userDir}/${trip}`);
+  const dir = path.join(__dirname, '/images/userImages');
 
-  if (!fs.existsSync(userDir)) {
+  if (!fs.existsSync(dir)) {
     // console.log('the path does not exist');
-    await fs.mkdirSync(userDir, (err) => {
-      if (err) {
-        return console.error(err);
-      }
-      return 'success';
-      // console.log('Directory created successfully');
-    });
-  }
-  if (!fs.existsSync(tripDir)) {
-    // console.log('the path does not exist');
-    await fs.mkdirSync(tripDir, (err) => {
+    fs.mkdirSync(dir, (err) => {
       if (err) {
         return console.error(err);
       }
@@ -126,24 +119,25 @@ app.post('/api/fileUpload', async (req, res) => {
     });
   }
   // to be updated with googleID / userID
+  const userName = '1245674548756';
 
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  const file = req.files.files;
+  const sampleFile = req.files.files;
   // imageFile.mv(`./images/userImages/${imageFile.name}`, (err) => {
   //   if(err) {res.sendStatus(500).send(err)}
   //   res.sendStatus(201).send('File Uploaded Successfully')
   // })
   // Use the mv() method to place the file somewhere on your server
-  const fileNameArray = file.name.split('.');
-  fileNameArray[0] = `${trip}${user}`;
+  const fileNameArray = sampleFile.name.split('.');
+  fileNameArray[0] = userName;
 
-  file.mv(`./images/userImages/${fileNameArray.join('.')}`, (err) => {
+  sampleFile.mv(`./images/userImages/${fileNameArray.join('.')}`, (err) => {
     if (err) {
       return res.status(500).send(err);
     }
     return 'success';
   });
-  return res.send(`./images/userImages/${fileNameArray.join('.')}`);
+  return res.send('File uploaded!');
 });
 
 app.get('/user/profile', (req, res) => {
@@ -160,10 +154,4 @@ app.get('/api/journal/:id', (req, res) => {
   const { id } = req.params;
 
   Trips.findOne({ where: { id }, include: [Journals] }).then((data) => res.send(data));
-});
-
-app.get('/api/images/:id', (req, res) => {
-  const { id } = req.params;
-
-  Journals.findOne({ where: { id }, include: [Images] }).then((data) => res.send(data));
 });
