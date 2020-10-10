@@ -66,7 +66,7 @@ export default {
       })
       setTimeout(() => {
         this.$emit("tripInput", this.currentTrip)
-      }, 250);
+      }, 500);
     },
 
     reverseGeocode: function() {
