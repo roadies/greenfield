@@ -35,7 +35,7 @@
       </b-form-group>
 
 
-      <fileUpload />
+      <fileUpload :trip="this.trip"/>
 
       <b-form-group id="input-group-3" label="Body:" label-for="input-3">
         <b-form-textarea
@@ -60,6 +60,7 @@
   import axios from "axios";
   import fileUpload from './fileUpload.vue';
   export default {
+    props: ['trip'],
     data() {
       return {
         form: {
@@ -67,6 +68,7 @@
           location: '',
           body: '',
           selectedFile: '',
+          tripId: this.trip.id,
         },
         show: true,
       }
@@ -74,6 +76,8 @@
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
+        console.log(this.form);
+        this.form.userId = this.$store.state.userId;
         this.form.date = new Date();
         this.form.image = this.file;
         axios.post('/api/journals', this.form)

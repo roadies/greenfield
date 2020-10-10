@@ -18,9 +18,11 @@
 import axios from "axios";
 
 export default {
+  props: ['trip'],
   data() {
     return {
       files: null,
+      tripId: this.trip.id,
     };
   },
   methods: {
@@ -29,6 +31,8 @@ export default {
     },
     handleSubmit() {
       const formData = new FormData();
+      formData.append('user', this.$store.state.userId);
+      formData.append('trip', this.tripId);
       for (const i of Object.keys(this.files)) {
         formData.append("files", this.files[i]);
       }
