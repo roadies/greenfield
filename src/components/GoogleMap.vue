@@ -17,8 +17,6 @@
       v-on:click="openInfoWindow(camp)" />
   </gmap-map>
   <button @click="splitUpTrip">find yr campsites</button>
-  <button>save to my trips</button>
-
 </div>
 </template>
 
@@ -46,8 +44,10 @@ export default {
         lat: 29.9510555,
         lng: -90.07148239999999
       },
-      tripDuration: '',
-      tripDistance: '',
+      tripLength: {
+        tripDuration: '',
+        tripDistance: '',
+      },
       tripRoute: '',
       daysOfDriving: '',
       itinerary: [],
@@ -63,10 +63,11 @@ export default {
       directionsDisplay.setMap(this.$refs.map.$mapObject);
       directionsService.route( { 'origin': this.coords, 'destination': this.destination, 'travelMode': 'DRIVING'}, (res, status) => {
         if (status === 'OK') {
-          this.tripDistance = res.routes[0].legs[0].distance.text;
-          this.tripDuration = res.routes[0].legs[0].duration.value;
+          this.tripLength.tripDistance = res.routes[0].legs[0].distance.text;
+          this.tripLength.tripDuration = res.routes[0].legs[0].duration.value;
           this.tripRoute = res.routes[0].legs[0];
           directionsDisplay.setDirections(res);
+          this.$emit("tripLength", this.tripLength);
           } else {
             window.alert('Directions request failed due to ' + status);
           }
@@ -75,7 +76,7 @@ export default {
 
     splitUpTrip: function() {
       const dailyDriveInSeconds = this.dailyDriveTime*3600;
-      this.daysOfDriving = Math.ceil(this.tripDuration/(dailyDriveInSeconds));
+      this.daysOfDriving = Math.ceil(this.tripLength.tripDuration/(dailyDriveInSeconds));
       let timeTracker = 0;
       let dayNumber = 1;
       this.tripRoute.steps.map((step, index) => {
