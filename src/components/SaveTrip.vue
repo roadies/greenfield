@@ -19,6 +19,7 @@ export default {
   },
   methods: {
     onSave() {
+      console.log('SAVE', this.tripInfo);
       this.trip = {
         userId: this.$store.state.userId,
         location_start: this.tripInfo.origin.address,
@@ -29,7 +30,7 @@ export default {
         longitude_end: this.tripInfo.destination.location.lng,
         trip_duration: this.tripLength.tripDuration,
         trip_distance: this.tripLength.tripDistance,
-        // campingOptions: this.campingOptions
+        start_date: this.tripInfo.tripStartDate,
       }
       console.log('hey!', this.trip);
       axios.post('/api/trips', this.trip)
