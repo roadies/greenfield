@@ -18,6 +18,7 @@ export default {
   mounted() {
     axios.get("/user/profile").then((response) => {
       if (response.data.googleId) {
+        console.log(this.$store.state);
         this.$store.state.userId = response.data.id;
         this.$store.state.isUserLoggedIn = true;
         this.$store.state.token = response.data.googleId;
