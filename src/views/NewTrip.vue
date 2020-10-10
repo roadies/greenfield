@@ -1,23 +1,12 @@
 <template>
 <div>
   <h1 style="text-align: center">where are u going where have u been</h1>
-  <center><GoogleMap
-    :dailyDriveTime="formData.dailyDriveTime"
-    :tripInfo="formData"
-    :allCampsites="campingOptions"
-    v-on:tripItinerary="setItinerary"
-    v-on:tripLength="setLength" /></center>
-  <SaveTrip
-    :tripInfo="formData"
-    :tripLength="tripLength"
-    :campingOptions="campingOptions"
-  />
-  <CampsiteLoader
-    :locationsToQuery="dailyDestinations"
-    v-on:tripInput="tripLookup"
-    v-on:nightlyOptions="displayOptions" />
-  <CampsiteOptions
-    :dailyOptionsList="campingOptions" />
+  <center>
+    <GoogleMap :dailyDriveTime="formData.dailyDriveTime" :tripInfo="formData" :allCampsites="campingOptions" v-on:tripItinerary="setItinerary" v-on:tripLength="setLength" />
+  </center>
+  <SaveTrip :tripInfo="formData" :tripLength="tripLength" :campingOptions="campingOptions" />
+  <CampsiteLoader :locationsToQuery="dailyDestinations" v-on:tripInput="tripLookup" v-on:nightlyOptions="displayOptions" />
+  <CampsiteOptions :dailyOptionsList="campingOptions" />
 </div>
 </template>
 
@@ -56,11 +45,10 @@ export default {
     },
     displayOptions(nightlyOptions) {
       this.campingOptions = nightlyOptions;
-    }
+    },
   },
 };
 </script>
 
 <style>
 </style>
-
