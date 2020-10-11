@@ -9,8 +9,6 @@ const store = new Vuex.Store({
     isUserLoggedIn: false,
     userName: '',
     userId: '',
-    newestFileUpload: '',
-    tripCalculated: false,
     imageLink: '',
   },
   getters: {
