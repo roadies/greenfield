@@ -43,6 +43,7 @@ const Journals = sequelize.define('Journals', {
   location: Sequelize.STRING,
   title: Sequelize.STRING,
   body: Sequelize.TEXT,
+  imageLink: Sequelize.STRING,
 });
 
 Journals.belongsTo(Trips, {

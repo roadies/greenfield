@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     userId: '',
     newestFileUpload: '',
     tripCalculated: false,
+    imageLink: '',
   },
   getters: {
     token: (state) => state.status,

@@ -1,13 +1,10 @@
 <template>
 <div>
   <div class="container">
-    <form @submit.prevent="handleSubmit">
+    <form>
       <div class="form-group">
         <input type="file" @change="uploadFile" multiple />
-      </div>
-
-      <div class="form-group">
-        <button class="btn btn-success btn-block btn-lg">Upload</button>
+        <img v-if="imageUploaded" :src="imageLink" />
       </div>
     </form>
   </div>
@@ -23,22 +20,26 @@ export default {
     return {
       files: null,
       tripId: this.trip.id,
+      imageLink: null,
+      imageUploaded: false      
     };
   },
   methods: {
     uploadFile(event) {
-      this.files = event.target.files;
-    },
-    handleSubmit() {
-      const formData = new FormData();
-      formData.append('user', this.$store.state.userId);
-      formData.append('trip', this.tripId);
-      for (const i of Object.keys(this.files)) {
-        formData.append("files", this.files[i]);
-      }
-      axios.post("/api/fileUpload", formData, {}).then((res) => {
-        console.log(res);
-      });
+      this.file = event.target.files[0];
+      const formdata = new FormData();
+      formdata.append("image", this.file);
+
+      axios.post('https://api.imgur.com/3/upload', 
+        formdata,
+        {headers: {
+          Authorization: "Client-ID 2b4745ad129c718"
+        }})
+        .then(res => {
+            this.imageLink = res.data.data.link
+            this.$store.state.imageLink = this.imageLink;
+            this.imageUploaded = true;
+          });
     },
   },
 };
