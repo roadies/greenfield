@@ -6,7 +6,13 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const fs = require('fs');
+<<<<<<< HEAD
 const { Journals, Users, Trips } = require('./database/db');
+=======
+const {
+  Journals, Users, Trips, Images,
+} = require('./database/db');
+>>>>>>> 25117b0... (Add) Blog delete route
 const { getUser } = require('./database/db');
 require('./passport-setup');
 
@@ -154,4 +160,35 @@ app.get('/api/journal/:id', (req, res) => {
   const { id } = req.params;
 
   Trips.findOne({ where: { id }, include: [Journals] }).then((data) => res.send(data));
+});
+
+app.get('/api/images/:id', (req, res) => {
+  const { id } = req.params;
+
+  Journals.findOne({ where: { id }, include: [Images] }).then((data) => res.send(data));
+});
+
+app.put('/api/trip/:id', (req, res) => {
+  const { id } = req.params;
+
+  Trips.update({
+    completed: 3,
+  }, {
+    where: { id },
+  })
+    .then((result) => {
+      console.log(result);
+    });
+});
+
+app.delete('/api/journal/:id', (req, res) => {
+  const { id } = req.params;
+
+  Journals.destroy({
+    where: {
+      id,
+    },
+  })
+    .then(() => res.send('erased'))
+    .catch((err) => console.error(err));
 });
