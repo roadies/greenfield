@@ -37,7 +37,11 @@ export default {
     changeBool(id) {
       axios
         .put(`/api/tripcompleted/${id}`)
-        .then(() => this.$emit("update", trips));
+        .then(() =>
+          axios
+          .get(`/api/trip/${this.$store.state.userId}`)
+          .then((response) => this.$emit("update", response.data.Trips))
+        );
     },
   },
 };
