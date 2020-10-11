@@ -1,3 +1,5 @@
+SAVETRIP.VUE
+
 <template>
 <div class="save-button">
   <button @click.prevent="onSave">save to my trips</button>
@@ -10,13 +12,15 @@ export default {
   props: ["tripInfo", "tripLength", "campingOptions"],
   data() {
     return {
-      trip: {},
-    };
+      trip: {
+        tripData: {},
+        campingData: {},
+      }
+    }
   },
   methods: {
     onSave() {
-      console.log("SAVE", this.tripInfo);
-      this.trip = {
+      this.trip.tripData = {
         userId: this.$store.state.userId,
         location_start: this.tripInfo.origin.address,
         location_end: this.tripInfo.destination.address,
@@ -27,13 +31,15 @@ export default {
         trip_duration: this.tripLength.tripDuration,
         trip_distance: this.tripLength.tripDistance,
         start_date: this.tripInfo.tripStartDate,
-      };
-      console.log("hey!", this.trip);
-      axios.post("/api/trips", this.trip).catch((err) => console.error(err));
-    },
-  },
-};
+      }
+      this.trip.campingData = this.campingOptions;
+      axios.post('/api/trips', this.trip)
+        .catch(err => console.error(err));
+    }
+  }
+}
 </script>
 
 <style>
 </style>
+
