@@ -16,7 +16,7 @@
       :draggable="false"
       v-on:click="openInfoWindow(camp)" />
   </gmap-map>
-  <button @click="splitUpTrip">find yr campsites</button>
+  <button v-if="this.$store.state.tripCalculated" @click="splitUpTrip">find yr campsites</button>
 </div>
 </template>
 

@@ -10,6 +10,7 @@ const store = new Vuex.Store({
     userName: '',
     userId: '',
     newestFileUpload: '',
+    tripCalculated: false,
   },
   getters: {
     token: (state) => state.status,
