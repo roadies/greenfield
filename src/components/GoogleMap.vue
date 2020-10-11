@@ -25,7 +25,8 @@ export default {
   props: [
     'dailyDriveTime',
     'allCampsites',
-    'tripInfo'
+    'tripInfo',
+    'savedView'
   ],
   data() {
     return {
@@ -49,7 +50,7 @@ export default {
         tripDistance: '',
       },
       tripRoute: '',
-      daysOfDriving: '',
+      daysOfDriving: null,
       itinerary: [],
       campCoordinates: [],
     };
@@ -99,21 +100,37 @@ export default {
     },
 
   createCampCoordinates: function() {
-    this.allCampsites.map(eachNight => {
-      eachNight.nearbyCamping.map(campsite => {
-        this.campCoordinates.push({
-          nightNumber: eachNight.night,
-          location: {
-            lat: parseFloat(campsite.latitude),
-            lng: parseFloat(campsite.longitude),
-          },
-          name: campsite.name,
-          facility: campsite.parent_name,
-          organization: campsite.org_name,
-          description: campsite.description,
+    if (!this.savedView) {
+      this.allCampsites.map(eachNight => {
+        eachNight.nearbyCamping.map(campsite => {
+          this.campCoordinates.push({
+            nightNumber: eachNight.night,
+            location: {
+              lat: parseFloat(campsite.latitude),
+              lng: parseFloat(campsite.longitude),
+            },
+            name: campsite.name,
+            facility: campsite.parent_name,
+            organization: campsite.org_name,
+            description: campsite.description,
+          });
         });
       });
-    });
+      this.$emit("parsedCampingOptions", this.campCoordinates);
+    } else {
+      this.allCampsites.map(campsite => {
+          this.campCoordinates.push({
+            location: {
+              lat: parseFloat(campsite.latitude),
+              lng: parseFloat(campsite.longitude),
+            },
+            name: campsite.name,
+            facility: campsite.facility,
+            organization: campsite.organization,
+            description: campsite.description,
+          });
+        });
+    }
   },
 
   openInfoWindow: function(selected) {
@@ -134,9 +151,19 @@ export default {
   },
 
 },
+mounted() {
+  if (this.allCampsites.length && !this.DaysofDriving) {
+    this.createCampCoordinates();
+  }
+},
 watch: {
     allCampsites: function() {
       if (this.allCampsites.length === this.daysOfDriving - 1) {
+        this.createCampCoordinates();
+      }
+    },
+    savedView: function() {
+      if (this.savedView) {
         this.createCampCoordinates();
       }
     },
