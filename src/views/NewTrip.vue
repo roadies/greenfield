@@ -1,11 +1,11 @@
 <template>
 <div class="newTrip">
-  <h1 class="newTrip_title">where are u going where have u been</h1>
+  <h2 class="newTrip_title">Where Are We Going ?</h2>
+  <CampsiteLoader :locationsToQuery="dailyDestinations" v-on:tripInput="tripLookup" v-on:nightlyOptions="displayOptions" />
   <center>
     <GoogleMap :dailyDriveTime="formData.dailyDriveTime" :tripInfo="formData" :allCampsites="campingOptions" v-on:tripItinerary="setItinerary" v-on:tripLength="setLength" v-on:parsedCampingOptions="setParsedOptions" />
   </center>
   <SaveTrip :tripInfo="formData" :tripLength="tripLength" :campingOptions="parsedCampingOptions" />
-  <CampsiteLoader :locationsToQuery="dailyDestinations" v-on:tripInput="tripLookup" v-on:nightlyOptions="displayOptions" />
   <CampsiteOptions :dailyOptionsList="campingOptions" />
 </div>
 </template>
@@ -49,12 +49,20 @@ export default {
     },
     setParsedOptions(parsedOptions) {
       this.parsedCampingOptions = parsedOptions;
-    }
+    },
   },
 };
 </script>
 
 <style>
+.newTrip {
+  padding-bottom: 100%;
+}
+
+.newTrip_i {
+  color: red;
+}
+
 .newTrip_title {
   text-align: center;
   font-family: "Pattaya";

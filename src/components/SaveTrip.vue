@@ -2,7 +2,9 @@ SAVETRIP.VUE
 
 <template>
 <div class="save-button">
-  <button @click.prevent="onSave">save to my trips</button>
+  <button @click.prevent="onSave" type="button" class="btn btn-primary">
+    Save My Trip
+  </button>
 </div>
 </template>
 
@@ -15,8 +17,8 @@ export default {
       trip: {
         tripData: {},
         campingData: {},
-      }
-    }
+      },
+    };
   },
   methods: {
     onSave() {
@@ -31,15 +33,21 @@ export default {
         trip_duration: this.tripLength.tripDuration,
         trip_distance: this.tripLength.tripDistance,
         start_date: this.tripInfo.tripStartDate,
-      }
+      };
       this.trip.campingData = this.campingOptions;
-      axios.post('/api/trips', this.trip)
-        .catch(err => console.error(err));
-    }
-  }
-}
+      axios.post("/api/trips", this.trip).catch((err) => console.error(err));
+    },
+  },
+};
 </script>
 
-<style>
-</style>
+<style scoped>
+.save-button {
+  padding-left: 45.8%;
+  padding-top: 10px;
+}
 
+.save-button:hover {
+  transform: scale(1.1);
+}
+</style>

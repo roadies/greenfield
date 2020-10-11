@@ -34,7 +34,7 @@ export default {
 .login {
   display: flex;
   flex-direction: column;
-  padding-bottom: 600px;
+  padding-bottom: 100%;
 }
 
 .login_welcome {
