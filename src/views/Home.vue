@@ -31,6 +31,10 @@ export default {
   padding-left: 100px;
 }
 
+a:hover {
+  transform: scale(1.1);
+}
+
 .home_sign-in {
   object-position: relative;
   text-align: right;

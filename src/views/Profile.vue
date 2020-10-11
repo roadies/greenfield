@@ -1,21 +1,25 @@
 <template>
 <div class="profile">
-  <h1 class="profile_title">My Trips</h1>
   <div class="profile_trips-container">
     <div class="profile_trip"></div>
-    <Trip :trips="trips" />
+    <h2 class="profile_upcoming">Upcoming Trips</h2>
+    <UpcomingTrip :trips="trips" />
+    <h2 class="profile_completed">Completed Trips</h2>
+    <CompletedTrip :trips="trips" />
   </div>
 </div>
 </template>
 
 <script>
 import axios from "axios";
-import Trip from "../components/Trip.vue";
+import UpcomingTrip from "../components/UpcomingTrip.vue";
+import CompletedTrip from "../components/CompletedTrip.vue";
 
 export default {
   name: "Profile",
   components: {
-    Trip,
+    UpcomingTrip,
+    CompletedTrip,
   },
   data() {
     return {
@@ -33,12 +37,22 @@ export default {
 
 <style scoped>
 .profile {
-  padding-bottom: 600px;
+  padding-bottom: 400px;
 }
 
 .profile_title {
   padding-top: 20px;
   padding-left: 40px;
   padding-bottom: 30px;
+}
+
+.profile_upcoming,
+.profile_completed {
+  position: relative;
+  padding-top: 30px;
+  text-align: center;
+  padding-bottom: 20px;
+  font-family: "Pattaya";
+  font-weight: bold;
 }
 </style>

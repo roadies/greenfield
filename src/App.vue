@@ -29,5 +29,7 @@ export default {
   text-align: center;
   padding-top: 20px;
   padding-bottom: 20px;
+  font-family: "Bowlby One SC";
+  font-weight: bold;
 }
 </style>

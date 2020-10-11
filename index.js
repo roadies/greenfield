@@ -6,7 +6,9 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const fs = require('fs');
-const { Journals, Users, Trips } = require('./database/db');
+const {
+  Journals, Users, Trips, Images,
+} = require('./database/db');
 const { getUser } = require('./database/db');
 require('./passport-setup');
 
@@ -154,4 +156,44 @@ app.get('/api/journal/:id', (req, res) => {
   const { id } = req.params;
 
   Trips.findOne({ where: { id }, include: [Journals] }).then((data) => res.send(data));
+});
+
+app.get('/api/images/:id', (req, res) => {
+  const { id } = req.params;
+
+  Journals.findOne({ where: { id }, include: [Images] }).then((data) => res.send(data));
+});
+
+app.put('/api/tripupcoming/:id', (req, res) => {
+  const { id } = req.params;
+
+  Trips.update({ completed: 0 }, {
+    where: { id },
+  })
+    .then(() => {
+      res.send('upcoming updated');
+    });
+});
+
+app.put('/api/tripcompleted/:id', (req, res) => {
+  const { id } = req.params;
+
+  Trips.update({ completed: 1 }, {
+    where: { id },
+  })
+    .then(() => {
+      res.send('completed updated');
+    });
+});
+
+app.delete('/api/journal/:id', (req, res) => {
+  const { id } = req.params;
+
+  Journals.destroy({
+    where: {
+      id,
+    },
+  })
+    .then(() => res.send('erased'))
+    .catch((err) => console.error(err));
 });
