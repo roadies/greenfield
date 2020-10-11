@@ -14,6 +14,7 @@
           <b-card-text>
             {{body}}
           </b-card-text>
+          <b-button v-on:click="deleteJournal(id)" variant="danger">delete</b-button>
         </b-card>
       </b-col>
   </div>
@@ -22,7 +23,13 @@
 <script>
 import axios from "axios";
   export default {
-    props: ["title","date","body","imageLink"]
+    props: ["title","date","body","imageLink","id"],
+    methods: {
+      deleteJournal(id) {
+        axios.delete(`/api/journal/${id}`)
+          .then( () => this.$el.parentNode.removeChild(this.$el));
+      }
+    }
   }
 </script>
 
