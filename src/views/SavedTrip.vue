@@ -1,12 +1,15 @@
 <template>
-  <div>
-    <!-- <p>{{this.tripInfo.origin.address}} to {{this.tripInfo.destination.address}}</p> -->
-    <p>{{this.tripInfo.startDate}}</p>
-    <p>{{this.tripInfo.distance}} // roughly {{Math.ceil(this.tripInfo.duration/3600)}} hours</p>
+  <div class="saved-trip">
+    <div class="trip-info" v-if="this.tripInfo.origin">
+      <h3>{{this.tripInfo.origin.address}} to {{this.tripInfo.destination.address}}</h3>
+      <p>trip time: {{this.tripInfo.distance}} || travel time: ~{{Math.ceil(this.tripInfo.duration/3600)}} hours</p>
+      <p>head out on {{this.tripInfo.startDate}}</p>
+    </div>
     <GoogleMap
       :tripInfo="tripInfo"
+      :allCampsites="allCampsites"
+      :savedView="savedView"
     />
-
   </div>
 </template>
 
@@ -22,36 +25,48 @@ export default {
   data () {
     return {
       tripId: '',
-      tripInfo: {}
+      tripInfo: {},
+      allCampsites: {},
+      savedView: '',
     }
   },
   mounted() {
     this.tripId = this.$route.query.id;
     axios.get(`/api/savedTrip/${this.tripId}`)
       .then((response) => {
+        const { data } = response;
         this.tripInfo = {
           origin: {
-            address: response.data.location_start,
+            address: data.location_start,
             location: {
-              lat: response.data.latitude_start,
-              lng: response.data.longitude_start,
+              lat: data.latitude_start,
+              lng: data.longitude_start,
             }
           },
           destination: {
-            address: response.data.location_end,
+            address: data.location_end,
             location: {
-              lat: response.data.latitude_end,
-              lng: response.data.longitude_end,
+              lat: data.latitude_end,
+              lng: data.longitude_end,
             }
           },
-          startDate: response.data.start_date,
-          distance: response.data.trip_distance,
-          duration: response.data.trip_duration,
+          startDate: data.start_date,
+          distance: data.trip_distance,
+          duration: data.trip_duration,
         }
+        this.allCampsites = data.Campsites;
+        this.savedView = true;
       });
 
   }
 }
 </script>
 
-<style></style>
+<style>
+  .saved-trip {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 100px;
+    text-align: center;
+  }
+</style>

@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const {
-  Journals, Users, Trips, Images,
+  Journals, Users, Trips, Images, Campsites,
 } = require('./database/db');
 const { getUser } = require('./database/db');
 require('./passport-setup');
@@ -16,7 +16,7 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
 app.use(fileUpload({
   createParentPath: true,
 }));
@@ -77,15 +77,25 @@ app.get('/api/trips', (req, res) => {
 });
 
 app.post('/api/trips/', (req, res) => {
-  const newTrip = req.body;
+  const newTrip = req.body.tripData;
+  const campingOptions = req.body.campingData;
   Trips.create(newTrip)
-    .then(() => res.status(201).send());
+    .then((trip) => {
+      campingOptions.map((campsite) => Campsites.create({
+        tripId: trip.dataValues.id,
+        name: campsite.name,
+        facility: campsite.facility,
+        organization: campsite.organization,
+        description: campsite.description,
+        latitude: campsite.location.lat,
+        longitude: campsite.location.lng,
+      }));
+    }).then(() => res.status(201).send());
 });
 
 app.get('/api/savedTrip/:id', (req, res) => {
   const { id } = req.params;
-  Trips.findOne({ where: { id } })
-    .then((tripData) => res.send(tripData));
+  Trips.findOne({ where: { id }, include: [Campsites] }).then((data) => res.status(200).send(data));
 });
 
 app.get('/api/journals', (req, res) => {

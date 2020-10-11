@@ -2,9 +2,9 @@
 <div class="newTrip">
   <h1 class="newTrip_title">where are u going where have u been</h1>
   <center>
-    <GoogleMap :dailyDriveTime="formData.dailyDriveTime" :tripInfo="formData" :allCampsites="campingOptions" v-on:tripItinerary="setItinerary" v-on:tripLength="setLength" />
+    <GoogleMap :dailyDriveTime="formData.dailyDriveTime" :tripInfo="formData" :allCampsites="campingOptions" v-on:tripItinerary="setItinerary" v-on:tripLength="setLength" v-on:parsedCampingOptions="setParsedOptions" />
   </center>
-  <SaveTrip :tripInfo="formData" :tripLength="tripLength" :campingOptions="campingOptions" />
+  <SaveTrip :tripInfo="formData" :tripLength="tripLength" :campingOptions="parsedCampingOptions" />
   <CampsiteLoader :locationsToQuery="dailyDestinations" v-on:tripInput="tripLookup" v-on:nightlyOptions="displayOptions" />
   <CampsiteOptions :dailyOptionsList="campingOptions" />
 </div>
@@ -31,6 +31,7 @@ export default {
       tripLength: {},
       dailyDestinations: {},
       campingOptions: {},
+      parsedCampingOptions: {},
     };
   },
   methods: {
@@ -46,6 +47,9 @@ export default {
     displayOptions(nightlyOptions) {
       this.campingOptions = nightlyOptions;
     },
+    setParsedOptions(parsedOptions) {
+      this.parsedCampingOptions = parsedOptions;
+    }
   },
 };
 </script>
