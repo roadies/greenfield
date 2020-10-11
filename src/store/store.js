@@ -9,8 +9,12 @@ const store = new Vuex.Store({
     isUserLoggedIn: false,
     userName: '',
     userId: '',
+<<<<<<< HEAD
     newestFileUpload: '',
     tripCalculated: false,
+=======
+    imageLink: '',
+>>>>>>> 5299558... (add) images upload to remote location and return
   },
   getters: {
     token: (state) => state.status,

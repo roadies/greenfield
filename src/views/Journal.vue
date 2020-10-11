@@ -2,7 +2,15 @@
 <div>
   <h1>Journals</h1>
   <b-container align-v="center">
-    <JournalList v-for="journal in journals" :key="journal.date" :title="journal.title" :date="journal.date" :body="journal.body" :id="journal.id" :tripId="journal.tripId" />
+    <JournalList
+      v-for="journal in journals.slice().reverse()" 
+      :key="journal.date" 
+      :title="journal.title" 
+      :date="journal.date" 
+      :body="journal.body" 
+      :id="journal.id" 
+      :tripId="journal.tripId" 
+      :imageLink="journal.imageLink"/>
   </b-container>
 </div>
 </template>
