@@ -81,19 +81,16 @@ app.post('/api/trips/', (req, res) => {
   const campingOptions = req.body.campingData;
   Trips.create(newTrip)
     .then((trip) => {
-      campingOptions.map(((campsite) => {
-        Campsites.create({
-          tripId: trip.dataValues.id,
-          name: campsite.name,
-          facility: campsite.facility,
-          organization: campsite.organization,
-          description: campsite.description,
-          latitude: campsite.location.lat,
-          longitude: campsite.location.lng,
-        });
+      campingOptions.map((campsite) => Campsites.create({
+        tripId: trip.dataValues.id,
+        name: campsite.name,
+        facility: campsite.facility,
+        organization: campsite.organization,
+        description: campsite.description,
+        latitude: campsite.location.lat,
+        longitude: campsite.location.lng,
       }));
-    })
-    .then(() => res.status(201).send());
+    }).then(() => res.status(201).send());
 });
 
 app.get('/api/savedTrip/:id', (req, res) => {
