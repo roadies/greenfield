@@ -40,6 +40,7 @@ export default {
 .login_welcome {
   text-align: center;
   padding-top: 20px;
+  padding-bottom: 10px;
 }
 
 .login_image {

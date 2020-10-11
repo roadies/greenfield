@@ -1,6 +1,6 @@
 <template>
-<div>
-  <h1 style="text-align: center">where are u going where have u been</h1>
+<div class="newTrip">
+  <h1 class="newTrip_title">where are u going where have u been</h1>
   <center>
     <GoogleMap :dailyDriveTime="formData.dailyDriveTime" :tripInfo="formData" :allCampsites="campingOptions" v-on:tripItinerary="setItinerary" v-on:tripLength="setLength" />
   </center>
@@ -51,4 +51,11 @@ export default {
 </script>
 
 <style>
+.newTrip_title {
+  text-align: center;
+  font-family: "Pattaya";
+  font-weight: bold;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 </style>
