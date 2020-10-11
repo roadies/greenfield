@@ -5,7 +5,6 @@ const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
-const fs = require('fs');
 const {
   Journals, Users, Trips, Images,
 } = require('./database/db');
