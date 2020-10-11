@@ -3,6 +3,9 @@
     <b-col>
         <b-card
           :title="title"
+          :img-src="imageLink"
+          img-alt="Image"
+          img-top
           tag="journal"
           style="max-width:200rem"
           class="mb-2"
@@ -19,7 +22,7 @@
 <script>
 import axios from "axios";
   export default {
-    props: ["title","date","body"]
+    props: ["title","date","body","imageLink"]
   }
 </script>
 

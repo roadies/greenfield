@@ -79,7 +79,7 @@
         console.log(this.form);
         this.form.userId = this.$store.state.userId;
         this.form.date = new Date();
-        this.form.image = this.file;
+        this.form.imageLink = this.$store.state.imageLink;
         axios.post('/api/journals', this.form)
           .catch(err => console.error(err));
       },
