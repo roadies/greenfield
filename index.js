@@ -102,46 +102,6 @@ app.post('/api/journals', (req, res) => {
     });
 });
 
-app.post('/api/fileUpload', (req, res) => {
-  // const {user} = req;
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
-  }
-
-  const dir = path.join(__dirname, '/images/userImages');
-
-  if (!fs.existsSync(dir)) {
-    // console.log('the path does not exist');
-    fs.mkdirSync(dir, (err) => {
-      if (err) {
-        return console.error(err);
-      }
-      return 'success';
-      // console.log('Directory created successfully');
-    });
-  }
-  // to be updated with googleID / userID
-  const userName = '1245674548756';
-
-  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  const sampleFile = req.files.files;
-  // imageFile.mv(`./images/userImages/${imageFile.name}`, (err) => {
-  //   if(err) {res.sendStatus(500).send(err)}
-  //   res.sendStatus(201).send('File Uploaded Successfully')
-  // })
-  // Use the mv() method to place the file somewhere on your server
-  const fileNameArray = sampleFile.name.split('.');
-  fileNameArray[0] = userName;
-
-  sampleFile.mv(`./images/userImages/${fileNameArray.join('.')}`, (err) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    return 'success';
-  });
-  return res.send('File uploaded!');
-});
-
 app.get('/user/profile', (req, res) => {
   getUser(req.user.googleId).then((data) => res.send(data)).catch((err) => console.error(err));
 });
