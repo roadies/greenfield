@@ -1,24 +1,21 @@
 <template>
-  <div class="save-button">
-    <button v-if="this.$store.state.tripCalculated" @click.prevent="onSave">save to my trips</button>
-  </div>
+<div class="save-button">
+  <button @click.prevent="onSave">save to my trips</button>
+</div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
-  props: [
-    'tripInfo',
-    'tripLength',
-    'campingOptions',
-  ],
+  props: ["tripInfo", "tripLength", "campingOptions"],
   data() {
     return {
-      trip: {}
-    }
+      trip: {},
+    };
   },
   methods: {
     onSave() {
+      console.log("SAVE", this.tripInfo);
       this.trip = {
         userId: this.$store.state.userId,
         location_start: this.tripInfo.origin.address,
@@ -30,14 +27,13 @@ export default {
         trip_duration: this.tripLength.tripDuration,
         trip_distance: this.tripLength.tripDistance,
         start_date: this.tripInfo.tripStartDate,
-      }
-      axios.post('/api/trips', this.trip)
-        .catch(err => console.error(err));
-    }
-  }
-}
+      };
+      console.log("hey!", this.trip);
+      axios.post("/api/trips", this.trip).catch((err) => console.error(err));
+    },
+  },
+};
 </script>
 
 <style>
-
 </style>

@@ -3,9 +3,9 @@
   <div class="profile_trips-container">
     <div class="profile_trip"></div>
     <h2 class="profile_upcoming">Upcoming Trips</h2>
-    <UpcomingTrip :trips="trips" />
+    <UpcomingTrip :trips="trips" @update="update" />
     <h2 class="profile_completed">Completed Trips</h2>
-    <CompletedTrip :trips="trips" />
+    <CompletedTrip :trips="trips" @updateCompleted="updateCompleted" />
   </div>
 </div>
 </template>
@@ -31,6 +31,14 @@ export default {
     axios.get(`/api/trip/${this.$store.state.userId}`).then((response) => {
       this.trips = response.data.Trips;
     });
+  },
+  methods: {
+    update(newData) {
+      this.trips = newData;
+    },
+    updateCompleted(complete) {
+      this.trips = complete;
+    },
   },
 };
 </script>
