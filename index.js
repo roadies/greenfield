@@ -170,8 +170,8 @@ app.put('/api/tripupcoming/:id', (req, res) => {
   Trips.update({ completed: 0 }, {
     where: { id },
   })
-    .then((data) => {
-      console.log(data);
+    .then(() => {
+      res.send('upcoming updated');
     });
 });
 
@@ -181,8 +181,8 @@ app.put('/api/tripcompleted/:id', (req, res) => {
   Trips.update({ completed: 1 }, {
     where: { id },
   })
-    .then((data) => {
-      console.log(data);
+    .then(() => {
+      res.send('completed updated');
     });
 });
 

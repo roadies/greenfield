@@ -1,6 +1,6 @@
 <template>
 <b-navbar class="p-3 mb-2 bg-warning text-dark" toggleable="lg" type="light">
-  <b-navbar-brand href="/#/profile">Roadies</b-navbar-brand>
+  <b-navbar-brand href="#">Roadies</b-navbar-brand>
 
   <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 

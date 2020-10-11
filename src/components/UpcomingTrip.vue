@@ -58,7 +58,8 @@ export default {
 }
 
 .trip_title:hover {
-  transform: scale(1.09);
+  transform: scale(1.07);
+  color: blue;
 }
 
 .trip_container {
