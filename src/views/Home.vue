@@ -24,7 +24,7 @@ export default {
 .home {
   display: flex;
   flex-direction: column;
-  padding-bottom: 600px;
+  padding-bottom: 100%;
 }
 
 .btn btn-warning {

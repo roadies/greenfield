@@ -45,7 +45,7 @@ export default {
 
 <style scoped>
 .profile {
-  padding-bottom: 400px;
+  padding-bottom: 100%;
 }
 
 .profile_title {

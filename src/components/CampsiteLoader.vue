@@ -12,7 +12,9 @@
 
     <label for="tripStartDate">when are you setting out?</label>
     <input type="date" id="tripStartDate" class="form-control" v-model="currentTrip.tripStartDate" />
-    <button>map out route</button>
+    <div class="button-route">
+      <button class="btn btn-primary">Map Out Route</button>
+    </div>
   </form>
 </div>
 </template>
@@ -21,25 +23,23 @@
 import axios from "axios";
 export default {
   name: "CampsiteLoader",
-  props: [
-    'locationsToQuery',
-  ],
+  props: ["locationsToQuery"],
   data() {
     return {
       currentTrip: {
         origin: {
-          address: '',
+          address: "",
           location: {
-            lat: '',
-            lng: '',
-          }
+            lat: "",
+            lng: "",
+          },
         },
         destination: {
-          address: '',
+          address: "",
           location: {
-            lat: '',
-            lng: '',
-          }
+            lat: "",
+            lng: "",
+          },
         },
         dailyDriveTime: "",
         tripStartDate: "",
@@ -53,65 +53,86 @@ export default {
     processForm: function () {
       this.$store.state.tripCalculated = true;
       const geocoder = new google.maps.Geocoder();
-        geocoder.geocode( { 'address': this.currentTrip.origin.address }, (res, status) => {
-        if (status === 'OK') {
-          this.currentTrip.origin.location.lat = res[0].geometry.bounds.Ya.i;
-          this.currentTrip.origin.location.lng = res[0].geometry.bounds.Sa.i;
-          };
-        })
-        geocoder.geocode( { 'address': this.currentTrip.destination.address }, (res, status) => {
-        if (status === 'OK') {
-          this.currentTrip.destination.location.lat = res[0].geometry.bounds.Ya.i;
-          this.currentTrip.destination.location.lng = res[0].geometry.bounds.Sa.i;
+      geocoder.geocode({
+          address: this.currentTrip.origin.address,
+        },
+        (res, status) => {
+          if (status === "OK") {
+            this.currentTrip.origin.location.lat = res[0].geometry.bounds.Ya.i;
+            this.currentTrip.origin.location.lng = res[0].geometry.bounds.Sa.i;
+          }
         }
-      })
+      );
+      geocoder.geocode({
+          address: this.currentTrip.destination.address,
+        },
+        (res, status) => {
+          if (status === "OK") {
+            this.currentTrip.destination.location.lat =
+              res[0].geometry.bounds.Ya.i;
+            this.currentTrip.destination.location.lng =
+              res[0].geometry.bounds.Sa.i;
+          }
+        }
+      );
       setTimeout(() => {
-        this.$emit("tripInput", this.currentTrip)
+        this.$emit("tripInput", this.currentTrip);
       }, 1000);
     },
 
-    reverseGeocode: function() {
+    reverseGeocode: function () {
       const geocoder = new google.maps.Geocoder();
-      this.legs.map(eachNight => {
+      this.legs.map((eachNight) => {
         const latlng = {
           lat: eachNight.end_lat,
-          lng: eachNight.end_lng
-        }
-        geocoder.geocode({ location: latlng }, (results, status) => {
-          if (status === 'OK') {
-            const zipCodePosition = results[0].address_components.length-1;
-            const eachNightZip = results[0].address_components[zipCodePosition].short_name;
-            const fedCampsitesUrl = `https://www.recreation.gov/api/search?q=${eachNightZip}&exact=false&fq=campsite_type_of_use%3AOvernight&fq=entity_type%3Acampground&start=0`
-            axios.get(fedCampsitesUrl)
-              .then((res) => {
+          lng: eachNight.end_lng,
+        };
+        geocoder.geocode({
+            location: latlng,
+          },
+          (results, status) => {
+            if (status === "OK") {
+              const zipCodePosition = results[0].address_components.length - 1;
+              const eachNightZip =
+                results[0].address_components[zipCodePosition].short_name;
+              const fedCampsitesUrl = `https://www.recreation.gov/api/search?q=${eachNightZip}&exact=false&fq=campsite_type_of_use%3AOvernight&fq=entity_type%3Acampground&start=0`;
+              axios.get(fedCampsitesUrl).then((res) => {
                 this.options.push({
                   night: eachNight.dayNumber,
-                  nearbyCamping: res.data.results
-                })
-              })
-          } else {
-            alert(status);
+                  nearbyCamping: res.data.results,
+                });
+              });
+            } else {
+              alert(status);
+            }
           }
-        })
-
-      })
+        );
+      });
       this.$emit("nightlyOptions", this.options);
     },
-
   },
   watch: {
-    locationsToQuery: function() {
+    locationsToQuery: function () {
       this.legs = this.locationsToQuery;
       this.reverseGeocode();
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>
-  .trip-planner {
-    width: 50%;
-    margin: auto;
-    padding: 20px;
-  }
+.trip-planner {
+  width: 50%;
+  margin: auto;
+  padding: 20px;
+}
+
+.button-route {
+  padding-top: 10px;
+  padding-left: 2px;
+}
+
+.button-route:hover {
+  transform: scale(1.01);
+}
 </style>
