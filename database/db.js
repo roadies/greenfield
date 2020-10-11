@@ -37,6 +37,21 @@ Trips.belongsTo(Users, {
   as: '_id',
 });
 
+const Campsites = sequelize.define('Campsites', {
+  name: Sequelize.STRING,
+  facility: Sequelize.STRING,
+  organization: Sequelize.STRING,
+  description: Sequelize.TEXT,
+  latitude: Sequelize.FLOAT,
+  longitude: Sequelize.FLOAT,
+  tripId: Sequelize.INTEGER,
+});
+
+Campsites.belongsTo(Trips, {
+  foreignKey: 'tripId',
+  as: '_id',
+});
+
 const Journals = sequelize.define('Journals', {
   tripId: Sequelize.INTEGER,
   date: Sequelize.DATE,
@@ -69,6 +84,9 @@ sequelize.sync()
 Users.hasMany(Trips, { foreignKey: 'userId' });
 Trips.belongsTo(Users, { foreignKey: 'userId' });
 
+Trips.hasMany(Campsites, { foreignKey: 'tripId' });
+Campsites.belongsTo(Trips, { foreignKey: 'tripId' });
+
 Trips.hasMany(Journals, { foreignKey: 'tripId' });
 Journals.belongsTo(Trips, { foreignKey: 'tripId' });
 
@@ -81,6 +99,7 @@ const getUser = (id) => Users.findOne({ where: { googleId: id } });
 module.exports = {
   Users,
   Trips,
+  Campsites,
   Journals,
   Images,
   getUser,
