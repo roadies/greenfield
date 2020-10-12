@@ -155,6 +155,18 @@ app.put('/api/tripcompleted/:id', (req, res) => {
     });
 });
 
+app.delete('/api/trip/:id', (req, res) => {
+  const { id } = req.params;
+
+  Trips.destroy({
+    where: {
+      id,
+    },
+  })
+    .then(() => res.send('erased'))
+    .catch((err) => console.error(err));
+});
+
 app.delete('/api/journal/:id', (req, res) => {
   const { id } = req.params;
 

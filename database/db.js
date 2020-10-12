@@ -33,7 +33,8 @@ const Trips = sequelize.define('Trips', {
 });
 
 Trips.belongsTo(Users, {
-  foreignKey: 'userId',
+  onDelete: 'cascade',
+  foreignKey: { name: 'userId', allowNull: true, onDelete: 'cascade' },
   as: '_id',
 });
 
@@ -48,8 +49,9 @@ const Campsites = sequelize.define('Campsites', {
 });
 
 Campsites.belongsTo(Trips, {
-  foreignKey: 'tripId',
+  foreignKey: { name: 'tripId', allowNull: true, onDelete: 'cascade' },
   as: '_id',
+  onDelete: 'cascade',
 });
 
 const Journals = sequelize.define('Journals', {
@@ -62,7 +64,8 @@ const Journals = sequelize.define('Journals', {
 });
 
 Journals.belongsTo(Trips, {
-  foreignKey: 'tripId',
+  onDelete: 'cascade',
+  foreignKey: { name: 'tripId', allowNull: true, onDelete: 'cascade' },
   as: '_id',
 });
 
@@ -81,17 +84,18 @@ sequelize.sync()
   .catch((err) => console.log('err in sync', err));
 
 // Associations
-Users.hasMany(Trips, { foreignKey: 'userId' });
-Trips.belongsTo(Users, { foreignKey: 'userId' });
+Users.hasMany(Trips, { foreignKey: 'userId', allowNull: true, onDelete: 'cascade' });
+Trips.belongsTo(Users, { foreignKey: 'userId', allowNull: true, onDelete: 'cascade' });
 
-Trips.hasMany(Campsites, { foreignKey: 'tripId' });
-Campsites.belongsTo(Trips, { foreignKey: 'tripId' });
+Trips.hasMany(Campsites, { foreignKey: 'tripId', allowNull: true, onDelete: 'cascade', hooks: true });
+Campsites.belongsTo(Trips, { onDelete: 'cascade', foreignKey: 'tripId', allowNull: true });
 
-Trips.hasMany(Journals, { foreignKey: 'tripId' });
-Journals.belongsTo(Trips, { foreignKey: 'tripId' });
+Trips.hasMany(Journals, { foreignKey: 'tripId', onDelete: 'cascade' });
+Journals.belongsTo(Trips, { foreignKey: 'tripId', onDelete: 'cascade' });
 
-Journals.hasMany(Images, { foreignKey: 'journalId' });
-Images.belongsTo(Journals, { foreignKey: 'journalId' });
+Journals.hasMany(Images, { foreignKey: 'journalId', onDelete: 'cascade' });
+
+Images.belongsTo(Journals, { foreignKey: 'journalId', onDelete: 'cascade' });
 
 // database functions
 const getUser = (id) => Users.findOne({ where: { googleId: id } });
