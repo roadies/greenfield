@@ -1,6 +1,6 @@
 <template>
 <div class="journal">
-  <h1 class="journal_title">Journals</h1>
+  <h2 class="journal_title">journals</h2>
   <b-container align-v="center">
     <JournalList v-for="journal in journals.slice().reverse()" :key="journal.date" :title="journal.title" :date="journal.date" :body="journal.body" :id="journal.id" :tripId="journal.tripId" :imageLink="journal.imageLink" />
   </b-container>
@@ -41,10 +41,10 @@ export default {
 
 .journal_title {
   position: relative;
-  padding-top: 30px;
+  padding-top: 10px;
   text-align: center;
   padding-bottom: 20px;
-  font-family: "Pattaya";
+  font-family: 'Montserrat';
   font-weight: bold;
 }
 </style>

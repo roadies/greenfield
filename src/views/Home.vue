@@ -1,11 +1,7 @@
 <template>
 <div class="home">
-  <a type="button" class="btn btn-warning" href="/google">Sign in with Google</a>
+  <a type="button" class="btn btn-warning" href="/google">sign in with Google</a>
   <img class="home_image" src="https://www.smartertravel.com/uploads/2017/06/road_trip_tips_hero-1400x500.jpg" alt="" />
-  <div class="home_intro">
-    <h3>Page Description</h3>
-    <p>Introduction to the website</p>
-  </div>
 </div>
 </template>
 
@@ -21,6 +17,7 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 .home {
   display: flex;
   flex-direction: column;
@@ -29,6 +26,7 @@ export default {
 
 .btn btn-warning {
   padding-left: 100px;
+  color: white;
 }
 
 a:hover {
@@ -45,6 +43,7 @@ a:hover {
 
 .home_image {
   object-fit: contain;
+  padding-top: 20px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 25px;
@@ -55,5 +54,10 @@ a:hover {
 .home_intro {
   text-align: center;
   padding-top: 30px;
+}
+
+h6 {
+  font-family: 'Montserrat';
+  font-style: italic;
 }
 </style>

@@ -1,11 +1,10 @@
-SAVETRIP.VUE
-
 <template>
-<div class="save-button">
-  <button @click.prevent="onSave" type="button" class="btn btn-primary">
-    Save My Trip
-  </button>
-</div>
+  <div class="save-button">
+    <button v-if="this.$store.state.campsitesCalculated" @click.prevent="onSave" type="button" class="btn btn-primary">
+      Save My Trip
+    </button><br>
+  <p v-if="this.$store.state.saved">saved</p>
+  </div>
 </template>
 
 <script>
@@ -35,7 +34,9 @@ export default {
         start_date: this.tripInfo.tripStartDate,
       };
       this.trip.campingData = this.campingOptions;
-      axios.post("/api/trips", this.trip).catch((err) => console.error(err));
+      axios.post("/api/trips", this.trip)
+        .then(() => this.$store.state.saved = true)
+        .catch((err) => console.error(err));
     },
   },
 };
@@ -50,4 +51,11 @@ export default {
 .save-button:hover {
   transform: scale(1.1);
 }
+
+p {
+  text-align: center;
+  font-style: italic;
+}
+
+
 </style>

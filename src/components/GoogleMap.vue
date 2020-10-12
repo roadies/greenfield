@@ -95,6 +95,7 @@ export default {
           dayNumber++;
         }
       });
+      this.$store.state.campsitesCalculated = true;
       this.$emit("tripItinerary", this.itinerary);
     },
 
