@@ -3,11 +3,11 @@
   <b-button
    align="left"
    variant="primary"
-   v-b-modal.modal-1
+   v-on:click="toggleModal"
    >New Journal
    </b-button>
 
-  <b-modal id="modal-1" title="New Journal Entry">
+  <b-modal :id="modalName" title="New Journal Entry">
     <div>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
@@ -63,6 +63,7 @@
     props: ['trip'],
     data() {
       return {
+        modalName : this.trip.id.toString(),
         form: {
           title: '',
           location: '',
@@ -95,6 +96,9 @@
           this.show = true
         })
       },
+      toggleModal() {
+        this.$bvModal.show(this.trip.id.toString());
+      }
 
     },
     components: {
