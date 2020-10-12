@@ -1,6 +1,6 @@
 <template>
 <div class="newTrip">
-  <h2 class="newTrip_title">Where Are We Going ?</h2>
+  <h2 class="newTrip_title">let's make a plan.</h2>
   <CampsiteLoader :locationsToQuery="dailyDestinations" v-on:tripInput="tripLookup" v-on:nightlyOptions="displayOptions" />
   <center>
     <GoogleMap :dailyDriveTime="formData.dailyDriveTime" :tripInfo="formData" :allCampsites="campingOptions" v-on:tripItinerary="setItinerary" v-on:tripLength="setLength" v-on:parsedCampingOptions="setParsedOptions" />
@@ -65,9 +65,9 @@ export default {
 
 .newTrip_title {
   text-align: center;
-  font-family: "Pattaya";
+  font-family: 'Montserrat';
   font-weight: bold;
-  padding-top: 5px;
+  padding-top: 10px;
   padding-bottom: 5px;
 }
 </style>

@@ -2,9 +2,9 @@
 <div class="profile">
   <div class="profile_trips-container">
     <div class="profile_trip"></div>
-    <h2 class="profile_upcoming">Upcoming Trips</h2>
+    <h2 class="profile_upcoming">upcoming trips</h2>
     <UpcomingTrip :trips="trips" @update="update" />
-    <h2 class="profile_completed">Completed Trips</h2>
+    <h2 class="profile_completed">completed trips</h2>
     <CompletedTrip :trips="trips" @updateCompleted="updateCompleted" />
   </div>
 </div>
@@ -28,6 +28,9 @@ export default {
     };
   },
   mounted() {
+    this.$store.state.saved = null;
+    this.$store.state.tripCalculated = null;
+    this.$store.state.campsitesCalculated = null;
     axios.get(`/api/trip/${this.$store.state.userId}`).then((response) => {
       this.trips = response.data.Trips;
     });
@@ -49,7 +52,7 @@ export default {
 }
 
 .profile_title {
-  padding-top: 20px;
+  padding-top: 10px;
   padding-left: 40px;
   padding-bottom: 30px;
 }
@@ -57,10 +60,10 @@ export default {
 .profile_upcoming,
 .profile_completed {
   position: relative;
-  padding-top: 30px;
+  padding-top: 10px;
   text-align: center;
   padding-bottom: 20px;
-  font-family: "Pattaya";
+  font-family: 'Montserrat';
   font-weight: bold;
 }
 </style>

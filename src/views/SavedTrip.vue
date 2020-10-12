@@ -2,9 +2,7 @@
 <div class="savedTrip">
   <div class="savedTrip_info" v-if="this.tripInfo.origin">
     <h2 class="savedTrip_title">
-      {{ this.tripInfo.origin.address }}
-      <h3>to</h3>
-      {{ this.tripInfo.destination.address }}
+      {{ this.tripInfo.origin.address }} <h3>to</h3> {{ this.tripInfo.destination.address }}
     </h2>
     <p class="savedTrip_description">
       <strong>trip time:</strong> {{ this.tripInfo.distance }} ||
@@ -14,7 +12,7 @@
       hours
     </p>
     <p class="savedTrip_description">
-      <strong>Departure:</strong> {{ this.tripInfo.startDate }}
+      <strong>departure:</strong> {{ this.tripInfo.startDate }}
     </p>
   </div>
   <center>
@@ -41,6 +39,8 @@ export default {
     };
   },
   mounted() {
+    this.$store.state.tripCalculated = null;
+    this.$store.state.campsitesCalculated = null;
     this.tripId = this.$route.query.id;
     axios.get(`/api/savedTrip/${this.tripId}`).then((response) => {
       const {
@@ -48,14 +48,14 @@ export default {
       } = response;
       this.tripInfo = {
         origin: {
-          address: data.location_start,
+          address: (data.location_start).toLowerCase(),
           location: {
             lat: data.latitude_start,
             lng: data.longitude_start,
           },
         },
         destination: {
-          address: data.location_end,
+          address: (data.location_end).toLowerCase(),
           location: {
             lat: data.latitude_end,
             lng: data.longitude_end,
@@ -82,7 +82,7 @@ export default {
 
 .savedTrip_title {
   position: relative;
-  padding-top: 20px;
+  padding-top: 10px;
   text-align: center;
   padding-bottom: 20px;
   font-family: "Pattaya";

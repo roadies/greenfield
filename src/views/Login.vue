@@ -1,6 +1,6 @@
 <template>
 <div class="login">
-  <h4 class="login_welcome">Welcome {{ this.$store.state.userName }}</h4>
+  <h4 class="login_welcome">welcome {{ this.$store.state.userName }}!</h4>
   <img class="login_image" src="https://media.cntraveler.com/photos/5edfc029b16364ea435ca862/3:1/w_3000,h_1000,c_limit/Roadtrip-2020-GettyImages-1151192650.jpg" alt="" />
 </div>
 </template>
@@ -41,6 +41,7 @@ export default {
   text-align: center;
   padding-top: 20px;
   padding-bottom: 10px;
+  font-family: 'Montserrat';
 }
 
 .login_image {

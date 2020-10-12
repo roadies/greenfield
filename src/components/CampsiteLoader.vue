@@ -21,6 +21,8 @@
 
 <script>
 import axios from "axios";
+import moment from 'moment';
+
 export default {
   name: "CampsiteLoader",
   props: ["locationsToQuery"],
@@ -78,6 +80,8 @@ export default {
       setTimeout(() => {
         this.$emit("tripInput", this.currentTrip);
       }, 1000);
+      const momentDate = moment(this.currentTrip.tripStartDate, "YYYY-MM-DD");
+      this.currentTrip.tripStartDate = moment(momentDate).format('MMMM Do YYYY');
     },
 
     reverseGeocode: function () {
@@ -135,4 +139,5 @@ export default {
 .button-route:hover {
   transform: scale(1.01);
 }
+
 </style>
