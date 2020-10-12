@@ -11,7 +11,9 @@ const store = new Vuex.Store({
     userId: '',
     newestFileUpload: '',
     tripCalculated: false,
+    campsitesCalculated: false,
     imageLink: '',
+    saved: null,
   },
   getters: {
     token: (state) => state.status,
