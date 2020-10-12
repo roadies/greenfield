@@ -12,10 +12,13 @@
       <JournalForm :trip="trip" />
     </div>
     <div class="trip_button2">
-      <router-link class="app_link" :to="{ path: '/trip', query: { id: trip.id } }"><button type="button" class="btn btn-danger">
+      <router-link class="app_link" :to="{ path: '/trip', query: { id: trip.id } }"><button type="button" class="btn btn-success">
           View Trip
         </button></router-link>
     </div>
+    <button type="button" class="btn btn-danger" @click="deleteTrip(trip.id)">
+      Delete Trip
+    </button>
   </div>
 </div>
 </template>
@@ -34,6 +37,17 @@ export default {
     changeBool(id) {
       axios
         .put(`/api/tripupcoming/${id}`)
+        .then(() =>
+          axios
+          .get(`/api/trip/${this.$store.state.userId}`)
+          .then((response) =>
+            this.$emit("updateCompleted", response.data.Trips)
+          )
+        );
+    },
+    deleteTrip(id) {
+      axios
+        .delete(`/api/trip/${id}`)
         .then(() =>
           axios
           .get(`/api/trip/${this.$store.state.userId}`)
