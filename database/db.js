@@ -25,7 +25,7 @@ const Trips = sequelize.define('Trips', {
   trip_duration: Sequelize.INTEGER,
   trip_distance: Sequelize.STRING,
   userId: Sequelize.INTEGER,
-  start_date: Sequelize.DATEONLY,
+  start_date: Sequelize.STRING,
   completed: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
