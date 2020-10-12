@@ -1,7 +1,7 @@
 <template>
 <div>
   <b-col>
-    <b-card :title="title" :img-src="imageLink" img-alt="Image" img-top tag="journal" style="max-width: 200rem" class="mb-2" :footer="date">
+    <b-card :title="title" :img-src="imageLink" img-alt="Image" img-top tag="journal" style="max-width: 200rem" class="mb-2" :footer="dayDate">
       <b-card-text>
         {{ body }}
       </b-card-text>
@@ -15,6 +15,11 @@
 import axios from "axios";
 export default {
   props: ["title", "date", "body", "imageLink", "id"],
+  data(){
+    return {
+      dayDate: dayjs(this.date).format('DD/MM/YYYY')
+    }
+  },
   methods: {
     deleteJournal(id) {
       axios
