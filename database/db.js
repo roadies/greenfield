@@ -80,8 +80,8 @@ Images.belongsTo(Journals, {
 });
 
 sequelize.sync()
-  .then(() => console.log('database & tables created'))
-  .catch((err) => console.log('err in sync', err));
+  .then(() => console.info('database & tables created'))
+  .catch((err) => console.error('err in sync', err));
 
 // Associations
 Users.hasMany(Trips, { foreignKey: 'userId', allowNull: true, onDelete: 'cascade' });

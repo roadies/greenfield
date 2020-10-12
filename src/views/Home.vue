@@ -1,6 +1,6 @@
 <template>
 <div class="home">
-  <a type="button" class="btn btn-warning" href="/google">sign in with Google</a>
+  <a type="button" class="btn btn-warning" href="/google">Sign in with Google</a>
   <img class="home_image" src="https://www.smartertravel.com/uploads/2017/06/road_trip_tips_hero-1400x500.jpg" alt="" />
 </div>
 </template>
@@ -17,7 +17,8 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+
 .home {
   display: flex;
   flex-direction: column;
@@ -57,7 +58,7 @@ a:hover {
 }
 
 h6 {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-style: italic;
 }
 </style>
